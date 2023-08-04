@@ -8,6 +8,7 @@ const { typeDefs, resolvers } = require('./schemas');
 
 // Import database connection
 const db = require('./config/connection');
+const authMiddleware = require('./utils/auth');
 
 // Define the port for the server, defaults to 3001
 const PORT = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleware
 });
 
 // Middleware for parsing urlencoded and JSON data
@@ -39,10 +41,10 @@ app.get('/', (req, res) => {
 const startApolloServer = async (typeDefs, resolvers) => {
   // Start the Apollo server
   await server.start();
-  
+
   // Apply the Apollo middleware to the Express app
   server.applyMiddleware({ app });
-  
+
   // When the database connection is opened, start the Express app and listen on the defined port
   db.once('open', () => {
     app.listen(PORT, () => {
