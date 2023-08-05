@@ -14,6 +14,11 @@
   ## Project Description
   This is the project description
   
+
+  ## Technologies Used  
+  [annyang](https://www.npmjs.com/package/annyang)  
+  [SpeechSynthesis](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)  
+  [React](https://react.dev/learn)
   ### License 
   
   [![Generic badge](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/.)
