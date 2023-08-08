@@ -18,9 +18,10 @@ const SpellingGame = () => {
   };
 
   // useEffect hook to set a random word as the correctWord on page load
+ 
   useEffect(() => {
     setCorrectWord(getRandomWord());
-  }, []);
+  }, [getRandomWord]);
 
   // Speak the word passed into this function using the Web Speech API
   const speakWord = (word) => {
