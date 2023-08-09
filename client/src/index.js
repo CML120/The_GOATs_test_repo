@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import App from './components/phoneticsPractice'
 
 // Define the root element where the React app will be rendered
 const rootElement = document.getElementById('root');

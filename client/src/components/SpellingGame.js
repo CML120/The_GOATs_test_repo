@@ -1,15 +1,23 @@
 //Import dependencies
-import React, { useState, useEffect } from 'react';
-import SpeechRecognitionComponent from './SpeechRecognitionComponent';
-import './SpellingGame.css';
+import React, { useState, useEffect } from "react";
+import SpeechRecognitionComponent from "./SpeechRecognitionComponent";
+import "./SpellingGame.css";
 
 const SpellingGame = () => {
   // Variables to keep track of the spoken and correct words
-  const [spokenWord, setSpokenWord] = useState('');
-  const [correctWord, setCorrectWord] = useState('');
+  const [spokenWord, setSpokenWord] = useState("");
+  const [correctWord, setCorrectWord] = useState("");
 
   // Array of words that can be selected for the game
-  const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
+  const wordsArray = [
+    "apple",
+    "banana",
+    "orange",
+    "grape",
+    "watermelon",
+    "strawberry",
+    "lemon",
+  ];
 
   // Function to get a random word from the wordsArray
   const getRandomWord = () => {
@@ -18,7 +26,7 @@ const SpellingGame = () => {
   };
 
   // useEffect hook to set a random word as the correctWord on page load
- 
+
   useEffect(() => {
     setCorrectWord(getRandomWord());
   }, [getRandomWord]);
@@ -38,27 +46,29 @@ const SpellingGame = () => {
 
   // Check if the spoken word matches the correct word
   const checkSpelling = () => {
-    const checkSpokenWord = spokenWord.replace(/\s+/g, '').toLowerCase();
-    const checkSelectedWord = correctWord.replace(/\s+/g, '').toLowerCase();
+    const checkSpokenWord = spokenWord.replace(/\s+/g, "").toLowerCase();
+    const checkSelectedWord = correctWord.replace(/\s+/g, "").toLowerCase();
 
     // Check if an attempt was made to spell the word before comparing the spoken word/letters with the selected word
     if (!checkSpokenWord) {
-      alert('You must spell the word first.');
-    } else if (checkSpokenWord === checkSelectedWord.slice(0, checkSpokenWord.length)) {
-      alert('Correct spelling!');
+      alert("You must spell the word first.");
+    } else if (
+      checkSpokenWord === checkSelectedWord.slice(0, checkSpokenWord.length)
+    ) {
+      alert("Correct spelling!");
     } else {
-      alert('Incorrect spelling. Try again.');
+      alert("Incorrect spelling. Try again.");
     }
   };
 
   // Clear the spoken letters state
   const clearSpokenLetters = () => {
-    setSpokenWord('');
+    setSpokenWord("");
   };
 
   // Function to handle when the user wants to get a new word
   const handleNewWord = () => {
-    setSpokenWord('');
+    setSpokenWord("");
     setCorrectWord(getRandomWord());
   };
 
