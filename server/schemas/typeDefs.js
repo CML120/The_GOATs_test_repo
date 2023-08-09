@@ -1,30 +1,22 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type Profile {
-    # Define the fields for the Profile type
-    # Example:
-    # _id: ID
-    # name: String
-    # skills: [String]!
+  type Word {
+    id: ID!
+    word: String!
+    difficulty: String!
+    meaning: String
+    # ... other fields
   }
 
   type Query {
-    # Define your Query fields here
-    # Example:
-    # profiles: [Profile]!
-    # profile(profileId: ID!): Profile
+    getWord(id: ID!): Word
+    getWordsByDifficulty(difficulty: String!): [Word]
   }
 
   type Mutation {
-    # Define your Mutation fields here
-    # Example:
-    # addProfile(name: String!): Profile
-    # addSkill(profileId: ID!, skill: String!): Profile
-    # removeProfile(profileId: ID!): Profile
-    # removeSkill(profileId: ID!, skill: String!): Profile
+    addWord(word: String!, difficulty: String!, meaning: String): Word
   }
 `;
 
 module.exports = typeDefs;
-
