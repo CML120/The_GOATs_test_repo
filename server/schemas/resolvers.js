@@ -1,4 +1,6 @@
 const Word = require('../models/Word');
+const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 const resolvers = {
   Query: {
@@ -16,6 +18,20 @@ const resolvers = {
         throw new Error('Error fetching words');
       }
     },
+    getUserByUsername: async (_, { username }) => {
+      try {
+        return await User.findOne({ username });
+      } catch (error) {
+        throw new Error('Error fetching user by username');
+      }
+    },
+    getProfile: async (_, { criteria }) => {
+      try {
+        return await Profile.findOne(criteria);
+      } catch (error) {
+        throw new Error('Error fetching profile');
+      }
+    },
   },
   Mutation: {
     addWord: async (_, { word, difficulty, meaning }) => {
@@ -24,6 +40,22 @@ const resolvers = {
         return await newWord.save();
       } catch (error) {
         throw new Error('Error adding word');
+      }
+    },
+    addUser: async (_, { username, studentname, email, password }) => {
+      try {
+        const newUser = new User({ username, studentname, email, password });
+        return await newUser.save();
+      } catch (error) {
+        throw new Error('Error adding user');
+      }
+    },
+    addProfile: async (_, { profileFields }) => {
+      try {
+        const newProfile = new Profile(profileFields);
+        return await newProfile.save();
+      } catch (error) {
+        throw new Error('Error adding profile');
       }
     },
   },
