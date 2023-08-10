@@ -12,7 +12,6 @@ const typeDefs = gql`
   type User {
     id: ID!
     username: String!
-    studentname: String!
     email: String!
     # ... other fields
   }
@@ -42,7 +41,7 @@ const typeDefs = gql`
 
   type Mutation {
     addWord(word: String!, difficulty: String!, meaning: String): Word
-    addUser(username: String!, studentname: String!, email: String!, password: String!): User
+    addUser(username: String!, email: String!, password: String!): User
     # Add a new mutation to add a profile
     addProfile(profileFields: ProfileInput!): Profile
   }

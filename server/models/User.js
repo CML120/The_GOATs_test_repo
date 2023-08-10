@@ -8,10 +8,6 @@ const userSchema = new Schema({
     unique: true,
     trim: true,
   },
-    studentname: {
-    type: String,
-    required: true,
-  },
   email: {
     type: String,
     required: true,
@@ -23,9 +19,14 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   }
+}
+{
+  toJSON: {
+    virtuals: true,
+  },
 });
 
-// set up pre-save middleware to create password
+// hash user password
 userSchema.pre('save', async function (next) {
     if (this.isNew || this.isModified('password')) {
       const saltRounds = 10;
