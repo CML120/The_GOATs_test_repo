@@ -4,6 +4,7 @@ import "./App.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
 import Navbar from "./components/Navbar";
+import GameScreen from "./components/GameScreen";
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
   uri: "/graphql",
@@ -17,11 +18,11 @@ export default function App() {
         <Navbar />
       </div>
       <div>
-        <SpellingGame />
+        <GameScreen />
       </div>
-      <div>
+      {/* <div>
         <PracticeLetter />
-      </div>
+      </div> */}
       {/* <div>
         <LetterPhonetics />
       </div> */}

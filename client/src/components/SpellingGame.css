@@ -43,4 +43,11 @@
   }
   
 
+  .message-container {
+    text-align: center;
+    margin-top: 10px;
+  }
   
+  .message {
+    color: red !important; 
+  }

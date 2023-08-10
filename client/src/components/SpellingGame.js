@@ -1,17 +1,18 @@
 //Import dependencies
 import React, { useState, useEffect } from 'react';
-import SpeechRecognitionComponent from './SpeechRecognitionComponent';
+import SpeechRecognitionComponent from './SpeechRecognitionComponent'; // Import the SpeechRecognitionComponent
 import './SpellingGame.css';
 
 const SpellingGame = () => {
-  // Variables to keep track of the spoken and correct words, the correct words count, and level
-  const [spokenWord, setSpokenWord] = useState('');
-  const [correctWord, setCorrectWord] = useState('');
-  const [correctWordsCount, setCorrectWordsCount] = useState(0);
-  const [currentLevel, setCurrentLevel] = useState(1);
-  const [typedWord, setTypedWord] = useState('');
+  // State variables 
+  const [spokenWord, setSpokenWord] = useState(''); // the letter(s) or word spoken by the player
+  const [correctWord, setCorrectWord] = useState('');  //the selected word from the array
+  const [correctWordsCount, setCorrectWordsCount] = useState(0); // keeps count of how many words have been spelled correctly
+  const [currentLevel, setCurrentLevel] = useState(1); //keeps track of the current player level difficulty
+  const [typedWord, setTypedWord] = useState(''); //the word typed by the player
+  const [isNewWordNeeded, setIsNewWordNeeded] = useState(true); //keeps track of whether a new word needs to be generated
+  const [message, setMessage] = useState(''); //the message to be displayed to the player in the message div on the page
 
-  // Array of words that can be selected for the game
   const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
 
   // Function to get a random word from the wordsArray
@@ -20,107 +21,134 @@ const SpellingGame = () => {
     return wordsArray[randomIndex];
   };
 
-  // useEffect hook to set a random word as the correctWord on page load
- 
   useEffect(() => {
-    setCorrectWord(getRandomWord());
-  }, [getRandomWord]);
+    // Generate a new correct word when needed
+    if (isNewWordNeeded) {
+      setCorrectWord(getRandomWord());
+      setIsNewWordNeeded(false);
+    }
+  }, [isNewWordNeeded]);
 
-  // Speak the word passed into this function using the Web Speech API
+  // Function to speak a word using the Web Speech API
   const speakWord = (word) => {
     const speechSynthesis = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(word);
     speechSynthesis.speak(utterance);
   };
 
-  // Handle the spoken word and update the spokenWord state
+  // Update spokenWord with each spoken letter
   const handleSpokenWord = (word) => {
     const spokenLetter = word.toLowerCase();
     setSpokenWord((prevSpokenWord) => prevSpokenWord + spokenLetter);
   };
 
-  // Check if the spoken word matches the correct word
+  // Check the spelling of the spoken word
   const checkSpelling = () => {
+
+    if (!spokenWord.includes(' ')) {
+      setMessage('Please spell the word');
+      clearSpokenLetters();
+      return;
+    }
     const checkSpokenWord = spokenWord.replace(/\s+/g, '').toLowerCase();
     const checkSelectedWord = correctWord.replace(/\s+/g, '').toLowerCase();
 
-    // Check if an attempt was made to spell the word before comparing the spoken word/letters with the selected word
     if (!checkSpokenWord) {
-      alert('You must spell the word first.');
+      setMessage('You must spell the word first.');
     } else if (checkSpokenWord === checkSelectedWord.slice(0, checkSpokenWord.length)) {
-      alert('Correct spelling!');
+      handleCorrectWord();
     } else {
-      alert('Incorrect spelling. Try again.');
+      setMessage('Incorrect spelling. Try again.');
     }
   };
 
-  // Clear the spoken letters state
+  // Handle correct spelling and word progression
+  const handleCorrectWord = () => {
+    setCorrectWordsCount((prevCount) => prevCount + 1);
+
+    if (correctWordsCount + 1 === 5) {
+      setCurrentLevel((prevLevel) => prevLevel + 1);
+      setCorrectWordsCount(0);
+    }
+    handleNewWord(); // Generate a new word for the game
+  };
+
+  // Clear spoken letters
   const clearSpokenLetters = () => {
     setSpokenWord('');
   };
 
-  // Function to handle when the typed word is changed
+  // Handle change of typed word input
   const handleTypedWordChange = (event) => {
     setTypedWord(event.target.value);
   };
 
-  // Function to check if the word passed in is a valid word
+  // Handle keyboard submission for spelling check
   const handleKeyboardSubmit = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      if (checkWord(typedWord)) {
-        setCorrectWordsCount((prevCount) => prevCount + 1);
-
-        if (correctWordsCount + 1 === 5) {
-          setCurrentLevel((prevLevel) => prevLevel + 1);
-          setCorrectWordsCount(0);
-        }
-      } else {
-        alert('Incorrect spelling. Please try again.');
-      }
-      setTypedWord('');
+      handleCheckSpelling();
     }
   };
 
-  // Function to check if the word passed in is a valid word
+  // Handle spelling check for typed word
+  const handleCheckSpelling = () => {
+    if (checkWord(typedWord)) {
+      const checkSelectedWord = correctWord.replace(/\s+/g, '').toLowerCase();
+      const checkTypedWord = typedWord.replace(/\s+/g, '').toLowerCase();
+
+      if (checkTypedWord === checkSelectedWord) {
+        handleCorrectWord();
+      } else {
+        setMessage('Incorrect spelling. Please try again.');
+      }
+    } else {
+      setMessage('Please enter a valid word.');
+    }
+    setTypedWord('');
+    handleNewWord(); // Generate a new word for the game
+  };
+
+  // Check if a word contains only valid characters
   const checkWord = (word) => {
     const spelledWord = word.replace(/\s/g, '');
     return spelledWord === word;
   };
 
-  // Function to handle when the user wants to get a new word
+  // Handle generating a new word for the game
   const handleNewWord = () => {
     setSpokenWord('');
-    setCorrectWord(getRandomWord());
+    setIsNewWordNeeded(true);
   };
 
-  // content for the SpellingGame component
   return (
     <div className="spelling-game">
       <h1>Spelling Game</h1>
       <h2>Please have your microphone plugged in and ready!</h2>
+      <div className="message-container">
+        <p className="message">{message}</p>
+      </div>
       <p>Level: {currentLevel}</p>
       <p>Correct Words: {correctWordsCount}</p>
       <p>Selected Word: "{correctWord}"</p>
-      {/* SpeechRecognitionComponent is a custom component to recognize spoken words */}
       <SpeechRecognitionComponent handleSpokenWord={handleSpokenWord} />
       <button onClick={() => speakWord(correctWord)}>Hear Word</button>
       <button onClick={clearSpokenLetters}>Clear Spoken Letters</button>
       <div className="spoken-word-container">
         <p>Spoken Letters: {spokenWord}</p>
       </div>
-      <button onClick={checkSpelling}>Check Spelling</button> <button type="button" onClick={handleNewWord}>New Word</button>
+      <button onClick={checkSpelling}>Check Spelling</button>
+      <button type="button" onClick={handleNewWord}>New Word</button>
       <div>
         <input
           type="text"
           value={typedWord}
           onChange={handleTypedWordChange}
-          onKeyUp={handleKeyboardSubmit} // Add the onKeyUp event handler
+          onKeyUp={handleKeyboardSubmit}
           placeholder="Type the spelled word"
         />
-        <button type="button" onClick={handleKeyboardSubmit}>Check Spelling</button>
+        <button type="button" onClick={handleCheckSpelling}>Check Spelling</button>
       </div>
-      
     </div>
   );
 };
