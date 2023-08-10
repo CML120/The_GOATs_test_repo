@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'chalkfont';
+  src: url('chalkfont.ttf') format('truetype');
+}
+
+* {
+  font-family: 'chalkfont';
+}
 .App {
   text-align: center;
 }
