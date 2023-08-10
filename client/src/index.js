@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ChakraProvider } from '@chakra-ui/react';
 // import App from './components/phoneticsPractice'
 
 // Define the root element where the React app will be rendered
@@ -11,7 +12,9 @@ const rootElement = document.getElementById('root');
 // Render the App component inside the root element
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+<ChakraProvider>
+  <App />
+</ChakraProvider>
   </React.StrictMode>,
   rootElement
 );

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { GiphyFetch } from "@giphy/js-fetch-api";
+import { Button, ButtonGroup } from '@chakra-ui/react'
 // import SpeechRecognitionComponent from "./SpeechRecognitionComponent";
 // import SpellingGame from "./SpellingGame";
 
-const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
-const gf = new GiphyFetch(giphyApiKey);
-
 // https://balsamiq.cloud/s4ss2ue/pze1uia/r2278
-export default function PracticeLetter(props) {
+export default function PracticeLetter() {
+  const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
+  const gf = new GiphyFetch(giphyApiKey);
+
   const [userSound, setuserSound] = useState("");
   const [results, setResults] = useState([]);
   const [recognitionInstance, setRecognitionInstance] = useState(null);
@@ -43,6 +44,18 @@ export default function PracticeLetter(props) {
     "Z",
   ];
 
+  const GiphysResponse = (props) => {
+    const items = props.gifs.map((element) => {
+      return (
+        <div key={element.id}>
+          <img src={element.url} alt="gifs" />
+        </div>
+      );
+    });
+
+    return <div>{items}</div>;
+  };
+
   const giphyImage = async (letter) => {
     try {
       const response = await gf.animate(letter, { limit: 10 });
@@ -65,16 +78,6 @@ export default function PracticeLetter(props) {
     }
   };
 
-  const showNextLetter = () => {
-    if (currentLetterIndex < letters.length) {
-      const letter = letters[currentLetterIndex];
-      setuserSound(letter);
-      giphyImage(letter);
-      speakWord(letter);
-      setShowLetters(true);
-      setCurrentLetterIndex(currentLetterIndex + 1);
-    }
-  };
   //
   useEffect(() => {
     const recognition = new window.webkitSpeechRecognition();
@@ -89,7 +92,7 @@ export default function PracticeLetter(props) {
     recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
-      const letter = event.results[0][0].transcript.toLowerCase();
+      const letter = event.results[0][0].transcript.toUpperCase();
       setuserSound(letter);
       // if (letters.includes(letter)) {
       giphyImage(letter);
@@ -105,39 +108,46 @@ export default function PracticeLetter(props) {
     setRecognitionInstance(recognition);
   }, []);
 
-  const GiphysResponse = (props) => {
-    const items = props.gifs.map((element) => {
-      return (
-        <div key={element.id}>
-          <img src={element.url} alt="gifs" />
-        </div>
-      );
-    });
+  const showNextLetter = () => {
+    if (currentLetterIndex < letters.length) {
+      const letter = letters[currentLetterIndex];
+      setuserSound(letter);
+      giphyImage(letter);
+      speakWord(letter);
+      speakWord(letter);
+      setShowLetters(true);
+      setCurrentLetterIndex(currentLetterIndex + 1);
+    }
+  };
 
-    return <div>{items}</div>;
+  const showLetterHandler = () => {
+    setShowLetters(true);
+    showNextLetter();
   };
 
   useEffect(() => {
     if (showLetters) {
-      const timeInterval = setInterval(() => {
+      const timeOut = setTimeout(() => {
         setShowLetters(false);
-        showNextLetter();
+        if (currentLetterIndex < letters.length) {
+          showNextLetter();
+        }
       }, 3000);
-      clearInterval(timeInterval);
+      return () => clearTimeout(timeOut);
     }
   }, [showLetters, currentLetterIndex]);
 
   return (
-    <>
+    <div>
       <div className="speech-recognition-practice">
         <h2>Voice Command Practice</h2>
 
-        <button onClick={startSoundRecognition}>
+        <Button colorScheme='teal' size='lg' onClick={startSoundRecognition} >
           {" "}
           {/* first I tried to use the body.document.onclick to start the instance  */}
           Start Practice
-        </button>
-        <button onClick={showNextLetter}>Show Letter</button>
+        </Button>
+        <Button onClick={showLetterHandler}>Show Letter</Button>
         <p>You said: {userSound}</p>
       </div>
       <div>
@@ -152,7 +162,7 @@ export default function PracticeLetter(props) {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 // Replaced by giphy Api
