@@ -6,13 +6,13 @@ import { GiphyFetch } from "@giphy/js-fetch-api";
 const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
 const gf = new GiphyFetch(giphyApiKey);
 
-//giphyApiKey= 'AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j'
-
 // https://balsamiq.cloud/s4ss2ue/pze1uia/r2278
 export default function PracticeLetter(props) {
   const [userSound, setuserSound] = useState("");
   const [results, setResults] = useState([]);
   const [recognitionInstance, setRecognitionInstance] = useState(null);
+  const [showLetters, setShowLetters] = useState(false);
+  const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 
   const letters = [
     "A",
@@ -46,11 +46,10 @@ export default function PracticeLetter(props) {
   const giphyImage = async (letter) => {
     try {
       const response = await gf.animate(letter, { limit: 10 });
-      // const response =await gf.search(letter, { sort: 'relevant', lang: 'es', limit: 10, type: 'stickers' })
       setResults(response.data);
     } catch (error) {
       console.error("Error fetching GIFs:", error);
-      setResults("");
+      setResults([]);
     }
   };
 
@@ -59,6 +58,24 @@ export default function PracticeLetter(props) {
     const utterance = new SpeechSynthesisUtterance(word);
     speechSynthesis.speak(utterance);
   };
+
+  const startSoundRecognition = () => {
+    if (recognitionInstance) {
+      recognitionInstance.start();
+    }
+  };
+
+  const showNextLetter = () => {
+    if (currentLetterIndex < letters.length) {
+      const letter = letters[currentLetterIndex];
+      setuserSound(letter);
+      giphyImage(letter);
+      speakWord(letter);
+      setShowLetters(true);
+      setCurrentLetterIndex(currentLetterIndex + 1);
+    }
+  };
+  //
   useEffect(() => {
     const recognition = new window.webkitSpeechRecognition();
     const grammar = new window.webkitSpeechGrammarList();
@@ -88,8 +105,6 @@ export default function PracticeLetter(props) {
     setRecognitionInstance(recognition);
   }, []);
 
-  console.log("User Sound: ", userSound);
-
   const GiphysResponse = (props) => {
     const items = props.gifs.map((element) => {
       return (
@@ -102,25 +117,45 @@ export default function PracticeLetter(props) {
     return <div>{items}</div>;
   };
 
+  useEffect(() => {
+    if (showLetters) {
+      const timeInterval = setInterval(() => {
+        setShowLetters(false);
+        showNextLetter();
+      }, 3000);
+      clearInterval(timeInterval);
+    }
+  }, [showLetters, currentLetterIndex]);
+
   return (
     <>
       <div className="speech-recognition-practice">
         <h2>Voice Command Practice</h2>
 
-        <button onClick={() => recognitionInstance.start()}>
+        <button onClick={startSoundRecognition}>
           {" "}
           {/* first I tried to use the body.document.onclick to start the instance  */}
           Start Practice
         </button>
+        <button onClick={showNextLetter}>Show Letter</button>
         <p>You said: {userSound}</p>
       </div>
-      <div>{results.length > 0 && <GiphysResponse gifs={results} />}</div>
-      {/* <SpellingGame speakWord={props.speakWord} /> */}
+      <div>
+        {showLetters && (
+          <div>
+            <div key={letters[currentLetterIndex - 1]}>
+              {letters[currentLetterIndex - 1]}
+              <div>
+                {results.length > 0 && <GiphysResponse gifs={results} />}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }
-
-
+// Replaced by giphy Api
 // const fetchImage = async (letter) => {
 //   try {
 //     const response = await fetch(
@@ -135,5 +170,4 @@ export default function PracticeLetter(props) {
 //   } catch (error) {
 //     console.error("Error fetching image:", error);
 //   }
-// };
-
+// }

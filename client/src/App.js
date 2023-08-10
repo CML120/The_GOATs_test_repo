@@ -1,15 +1,14 @@
 import React from "react";
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import "./App.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
 import Navbar from "./components/Navbar";
-import LetterPhonetics from "./components/phoneticsPractice";
+// import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
   uri: "/graphql",
-  cache: new InMemoryCache()
-})
-
+  cache: new InMemoryCache(),
+});
 
 export default function App() {
   return (
@@ -23,9 +22,9 @@ export default function App() {
       <div>
         <PracticeLetter />
       </div>
-      <div>
+      {/* <div>
         <LetterPhonetics />
-      </div>
+      </div> */}
     </ApolloProvider>
   );
 }
