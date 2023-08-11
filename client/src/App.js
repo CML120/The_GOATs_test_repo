@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import "./App.css";
 import SpellingGame from "./components/SpellingGame";
@@ -10,6 +10,7 @@ import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
 import Profile from "./components/pages/Profile";
 import Home from "./components/pages/Home";
+import Footer from "./components/Footer";
 
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
@@ -21,36 +22,33 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div>
+        <div >
           <Navbar />
-        </div>
-        <div>
-          <GameScreen />
-        </div>
-        <Routes>
-          {/* <Route
+
+          <div>
+            <GameScreen />
+          </div>
+          <div className="mainContainer">
+            <Routes>
+              {/* <Route
             path="/home"
             element={<Home />}
           /> */}
-          <Route
-            path="/login"
-            element={<Login />}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route
+            path="/letters"
+            element={<PracticeLetter />}
           />
           <Route
-            path="/signup"
-            element={<Signup />}
+            path="/spellinggame"
+            element={<SpellingGame />}
           />
-           {/* <Route
-            path="/profile"
-            element={<Profile />}
-          /> */}
-        </Routes>
-        {/* <div>
-        <PracticeLetter />
-      </div> */}
-        {/* <div>
-        <LetterPhonetics />
-      </div> */}
+            </Routes>
+          </div>
+
+          <Footer />
+        </div>
       </Router>
     </ApolloProvider>
   );

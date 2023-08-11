@@ -9,7 +9,8 @@ function GameScreen() {
 
   let currentPage;
   if (activePage === "Play Ground") {
-    currentPage = <div>Play Ground Component</div>;
+    // currentPage = <div>Play Ground Component</div>;
+    // currentPage = <PlayGround/>;
   } else if (activePage === "Practice Letters") {
     currentPage = <PracticeLetter />;
   } else if (activePage === "Phonetics") {

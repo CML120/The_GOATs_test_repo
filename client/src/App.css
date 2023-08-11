@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'chalkfont';
-  src: url('chalkfont.ttf') format('truetype');
+  font-family: "chalkfont";
+  src: url("chalkfont.ttf") format("truetype");
 }
 
 * {
-  font-family: 'chalkfont';
+  font-family: "chalkfont";
 }
 .App {
   text-align: center;
@@ -43,4 +43,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+.mainContainer {
+  min-height: 50rem;
+  background-color: rgb(243, 225, 225);
 }
