@@ -42,7 +42,7 @@ const resolvers = {
         throw new Error('Error adding word');
       }
     },
-    addUser: async (_, { username, email, password }) => {
+    createUser: async (_, { username, email, password }) => {
       try {
         const newUser = new User({ username, email, password });
         return await newUser.save();
