@@ -43,6 +43,7 @@ const resolvers = {
       }
     },
     createUser: async (_, { username, email, password }) => {
+      console.log(username, email, password);
       try {
         const newUser = new User({ username, email, password });
         return await newUser.save();

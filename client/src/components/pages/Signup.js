@@ -16,7 +16,6 @@ const Signup = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormState({
       ...formState,
       [name]: value,
@@ -25,13 +24,12 @@ const Signup = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
 
     try {
       const { data } = await createUser({
         variables: { ...formState },
       });
-
+console.log(data);
       Auth.login(data.createUser.token);
     } catch (e) {
       console.error(e);
@@ -42,7 +40,7 @@ const Signup = () => {
     <main className="">
       <div className="">
         <div className="">
-          <h2 className="">Sign Up</h2>
+          <h1 className="">Sign Up</h1>
           <div className="">
             {data ? (
               <p>
