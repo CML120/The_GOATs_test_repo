@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from "@apollo/client";
 import "./App.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
@@ -12,9 +12,13 @@ import Profile from "./components/pages/Profile";
 import Home from "./components/pages/Home";
 import Footer from "./components/Footer";
 
+const httpLink = createHttpLink({
+  uri: "/graphql",
+  });
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
-  uri: "/graphql",
+  // uri: "/graphql",
+  link: httpLink,
   cache: new InMemoryCache(),
 });
 
