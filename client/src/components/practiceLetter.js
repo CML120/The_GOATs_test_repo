@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GiphyFetch } from "@giphy/js-fetch-api";
-import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Button, ButtonGroup } from "@chakra-ui/react";
+import LetterGame, { AllLettersInOne } from "./LetterGame";
 // import SpeechRecognitionComponent from "./SpeechRecognitionComponent";
 // import SpellingGame from "./SpellingGame";
 
@@ -9,7 +10,7 @@ export default function PracticeLetter() {
   const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
   const gf = new GiphyFetch(giphyApiKey);
 
-  const [userSound, setuserSound] = useState("");
+  const [userSound, setUserSound] = useState("");
   const [results, setResults] = useState([]);
   const [recognitionInstance, setRecognitionInstance] = useState(null);
   const [showLetters, setShowLetters] = useState(false);
@@ -93,11 +94,9 @@ export default function PracticeLetter() {
 
     recognition.onresult = (event) => {
       const letter = event.results[0][0].transcript.toUpperCase();
-      setuserSound(letter);
+      setUserSound(letter);
       // if (letters.includes(letter)) {
-      giphyImage(letter);
-      speakWord(letter);
-      speakWord(letter);
+
       // }
     };
 
@@ -108,16 +107,37 @@ export default function PracticeLetter() {
     setRecognitionInstance(recognition);
   }, []);
 
+  const soundGenerator = (letter) => {
+    setUserSound(letter);
+    giphyImage(letter); //not working???
+    speakWord(letter);
+    speakWord(letter);
+  };
+
+  useEffect(() => {
+    if (userSound && letters.includes(userSound)) {
+      soundGenerator(userSound); //nosound
+      // giphyImage(letter); //not working???
+      // speakWord(letter);
+      // speakWord(letter);
+    }
+  }, []);
+
   const showNextLetter = () => {
     if (currentLetterIndex < letters.length) {
       const letter = letters[currentLetterIndex];
-      setuserSound(letter);
+      // setUserSound(letter);
       giphyImage(letter);
       speakWord(letter);
       speakWord(letter);
       setShowLetters(true);
       setCurrentLetterIndex(currentLetterIndex + 1);
     }
+
+    // else if (currentLetterIndex === letters.length - 1) {
+    //   speakWord("yeeeeee");
+    //   setShowLetters(false);
+    // }
   };
 
   const showLetterHandler = () => {
@@ -142,13 +162,13 @@ export default function PracticeLetter() {
       <div className="speech-recognition-practice">
         <h2>Voice Command Practice</h2>
 
-        <Button colorScheme='teal' size='lg' onClick={startSoundRecognition} >
+        <Button colorScheme="teal" size="lg" onClick={startSoundRecognition}>
           {" "}
           {/* first I tried to use the body.document.onclick to start the instance  */}
           Start Practice
         </Button>
         <Button onClick={showLetterHandler}>Show Letter</Button>
-        <p>You said: {userSound}</p>
+        <p>It sounds: {userSound}</p>
       </div>
       <div>
         {showLetters && (
@@ -161,6 +181,12 @@ export default function PracticeLetter() {
             </div>
           </div>
         )}
+      </div>
+      <div>
+        <LetterGame />
+      </div>
+      <div>
+        <AllLettersInOne letters={letters} onClick={soundGenerator} />
       </div>
     </div>
   );

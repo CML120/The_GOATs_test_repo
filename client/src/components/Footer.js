@@ -19,6 +19,7 @@ const style = {
   },
   lowerStyle: {
     textAlign: "center",
+    fontSize: ".75rem",
   },
 };
 
@@ -57,7 +58,7 @@ export default function Footer() {
         <Divider orientation="horizontal" />
         <div style={style.lowerStyle}>
           <VStack>
-            <Container>Powered with </Container>
+            <Container>Powered with smile& 🫶🏼 💕</Container>
             <Container>&copy; 2023</Container>
           </VStack>
         </div>
