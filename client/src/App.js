@@ -7,6 +7,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import "./App.css";
+import "./components/practiceLetter.css"
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
 import Navbar from "./components/Navbar";

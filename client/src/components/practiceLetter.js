@@ -169,97 +169,89 @@ export default function PracticeLetter() {
   }, [showLetters, currentLetterIndex]);
 
   return (
-    <Tabs>
-      <TabList>
-        <Tab>Learn All Letters</Tab>
-        <Tab>Learn the Sound</Tab>
-        <Tab>Practice the Sound</Tab>
+    <div className="box-wrapper">
+      <Tabs className="tab-container">
+       
+          <TabList style={{flexWrap: 'wrap', justifyContent: 'center'}}>
+            <Tab>Learn All Letters</Tab>
+            <Tab>Learn the Sound</Tab>
+            <Tab>Practice the Sound</Tab>
 
-        <Tab>Test Yourselves</Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel>
-          <h5>Welcome!</h5>
-          <p>
-            Your first step begins here to be a G.R.O.A.T GOAT (Greatest Reader
-            Of All Time)
-          </p>
-          <p>
-            Learn the letters, and you can also press each letter to listen to
-            its sound
-          </p>
-          <div id="allLettersInOne-div">
-            <AllLettersInOne letters={letters} onClick={soundGenerator} />
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <>
-            <h5>Welcome! </h5>
-            <p>
-              {" "}
-              Here you are going to learn the sound of all letters in just one
-              click{" "}
-            </p>
-            <Button onClick={showLetterHandler}>Show Letter</Button>
+            <Tab>Test Yourselves</Tab>
+          </TabList>
+    
+     
+          <TabPanels style={{flexWrap: 'wrap', justifyContent: 'center'}}>
+            <TabPanel className="each-tabPanel">
+              <h5>Welcome!</h5>
+              <p>
+                Your first step begins here to be a G.R.O.A.T GOAT (Greatest
+                Reader Of All Time)
+              </p>
+              <p>
+                Learn the letters, and you can also press each letter to listen
+                to its sound
+              </p>
+              <div id="allLettersInOne-div">
+                <AllLettersInOne letters={letters} onClick={soundGenerator} />
+              </div>
+            </TabPanel>
+            <TabPanel className="each-tabPanel">
+              <>
+                <h5>Welcome! </h5>
+                <p>
+                  {" "}
+                  Here you are going to learn the sound of all letters in just
+                  one click{" "}
+                </p>
+                <Button onClick={showLetterHandler}>Show Letter</Button>
 
-            <div>
-              {showLetters && (
                 <div>
-                  <div key={letters[currentLetterIndex - 1]}>
-                    {letters[currentLetterIndex - 1]}
+                  {showLetters && (
                     <div>
-                      {results.length > 0 && <GiphysResponse gifs={results} />}
+                      <div key={letters[currentLetterIndex - 1]}>
+                        {letters[currentLetterIndex - 1]}
+                        <div>
+                          {results.length > 0 && (
+                            <GiphysResponse gifs={results} />
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </>
-        </TabPanel>
+              </>
+            </TabPanel>
 
-        <TabPanel>
-          <div className="speech-recognition-practice">
-            <h2>Voice Command Practice</h2>
-            <p>
-              Get closer to the microphone, click the start button, and speak
-              out the letter randomly.
-            </p>
-            <p>You will heer back your sound...</p>
+            <TabPanel className="each-tabPanel">
+              <div className="speech-recognition-practice">
+                <h2>Voice Command Practice</h2>
+                <p>
+                  Get closer to the microphone, click the start button, and
+                  speak out the letter randomly.
+                </p>
+                <p>You will heer back your sound...</p>
 
-            <Button
-              colorScheme="teal"
-              size="lg"
-              onClick={startSoundRecognition}
-            >
-              {" "}
-              {/* first I tried to use the body.document.onclick to start the instance  */}
-              Start Practice
-            </Button>
-            <p>It sounds: {userSound}</p>
-          </div>
-        </TabPanel>
+                <Button
+                  colorScheme="teal"
+                  size="lg"
+                  onClick={startSoundRecognition}
+                >
+                  {" "}
+                  {/* first I tried to use the body.document.onclick to start the instance  */}
+                  Start Practice
+                </Button>
+                <p>It sounds: {userSound}</p>
+              </div>
+            </TabPanel>
 
-        <TabPanel>
-          <h5>Guess the Next Letter </h5>
-          <LetterGame />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-
-    // <div>
-    //   <Button onClick={onToggle}>Display All Letters</Button>
-    //   <ScaleFade initialScale={0.9} in={isOpen}>
-    //     <Box
-    //       p="5rem"
-    //       color="white"
-    //       mt="4"
-    //       bg="tomato"
-    //       rounded="md"
-    //       shadow="md"
-    //     >
-    //       <AllLettersInOne letters={letters} onClick={soundGenerator} />
-    //     </Box>
-    //   </ScaleFade>
-    // </div>
+            <TabPanel className="each-tabPanel">
+              <h5>Guess the Next Letter </h5>
+              <LetterGame />
+            </TabPanel>
+          </TabPanels>
+     
+      </Tabs>
+    </div>
   );
 }

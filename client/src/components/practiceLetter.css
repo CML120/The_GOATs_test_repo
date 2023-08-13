@@ -1,0 +1,33 @@
+/* .box-wrapper .each-tabPanel{
+   height: 100%;
+}
+
+.tab-container {
+   
+   
+}
+
+.content-tabPanels {
+flex: 1;
+overflow: hidden;
+
+}
+
+@media screen and(max-width: 768px){
+    .tab-container {
+              flex-direction: column;
+           
+    }
+    .each-tabPanel {
+        width: auto;
+    }
+    .content-tabPanels {
+        width: 80%;
+    }
+   
+    
+} */
+
+.allLettersInOne-div{
+    
+}

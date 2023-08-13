@@ -112,11 +112,26 @@ function LetterGame() {
   );
 }
 
+const style = {
+  eachLetter: {
+    fontSize: "4rem",
+    padding: "1rem",
+    transform: `scale(1.1)`,
+    transition: "transition 0.2s ease in-out",
+  },
+};
 function AllLettersInOne(props) {
   return (
     <div>
       {props.letters.map((letter, index) => (
-        <button key={index} onClick={() => props.onClick(letter)}>
+        <button
+          key={index}
+          onClick={() => props.onClick(index, letter)}
+          style={{
+            ...style.eachLetter,
+            transform: props.onClick(index) ? "scale(1.1)" : "scale(1)",
+          }}
+        >
           {letter}
         </button>
       ))}
