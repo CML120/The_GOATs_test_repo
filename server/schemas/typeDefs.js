@@ -24,6 +24,8 @@ const typeDefs = gql`
   }
 
   type Query {
+    users: [User]
+    user(username: String!): User
     getWord(id: ID!): Word
     getWordsByDifficulty(difficulty: String!): [Word]
     getUserByUsername(username: String!): User
@@ -37,7 +39,7 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     addWord(word: String!, difficulty: String!, meaning: String): Word
-    createUser(username: String!, email: String!, password: String!): User
+    createUser(username: String!, email: String!, password: String!): Auth
     addProfile(profileFields: ProfileInput!): Profile
   }
 

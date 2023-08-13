@@ -2,6 +2,7 @@ const Word = require('../models/Word');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
 const { AuthenticationError } = require('apollo-server-express');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
@@ -19,7 +20,7 @@ const resolvers = {
         throw new Error('Error fetching words');
       }
     },
-    getUserByUsername: async (_, { username }) => {
+    getUserByUsername: async (parent, { username }) => {
       try {
         return await User.findOne({ username });
       } catch (error) {
@@ -57,24 +58,26 @@ const resolvers = {
         throw new Error('Error adding word');
       }
     },
-    createUser: async (_, { username, email, password }) => {
-      console.log(username, email, password);
-      try {
-        const newUser = new User({ username, email, password });
-        return await newUser.save();
-      } catch (error) {
-        throw new Error('Error adding user');
-      }
+    createUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
     },
-    addProfile: async (_, { profileFields }) => {
-      try {
-        const newProfile = new Profile(profileFields);
-        return await newProfile.save();
-      } catch (error) {
-        throw new Error('Error adding profile');
-      }
+      // try {
+      //   const newUser = new User({ username, email, password });
+      //   return await newUser.save();
+      // } catch (error) {
+      //   throw new Error('Error adding user');
+      // }
     },
-  },
-};
+    // addProfile: async (_, { profileFields }) => {
+    //   try {
+    //     const newProfile = new Profile(profileFields);
+    //     return await newProfile.save();
+    //   } catch (error) {
+    //     throw new Error('Error adding profile');
+    //   }
+    // },
+  };
 
 module.exports = resolvers;
