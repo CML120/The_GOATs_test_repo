@@ -31,7 +31,7 @@ function WordGuessGame() {
 
     const handleKeyDown = useCallback((event) => {
         if (timerCount > 0 && !isWin && !isLost) {
-            const key = event.key.toLowerCase();
+            const key = event.key;
             const alphabetNumericCharacters = "abcdefghijklmnopqrstuvwxyz0123456789 ".split("");
             
             if (alphabetNumericCharacters.includes(key)) {
