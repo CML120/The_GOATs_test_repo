@@ -15,7 +15,7 @@ const resolvers = {
     },
     getWordsByDifficulty: async (_, { difficulty }) => {
       try {
-        return await Word.find({ difficulty });
+        return await Word.find({ difficulty: parseInt(difficulty) });
       } catch (error) {
         throw new Error('Error fetching words');
       }
@@ -50,14 +50,18 @@ const resolvers = {
       return { token, user };
   },
 
-    addWord: async (_, { word, difficulty, meaning }) => {
-      try {
-        const newWord = new Word({ word, difficulty, meaning });
-        return await newWord.save();
-      } catch (error) {
-        throw new Error('Error adding word');
-      }
-    },
+  addWord: async (_, { word, difficulty, meaning }) => {
+    try {
+      const newWord = new Word({
+        word,
+        difficulty: parseInt(difficulty), // Parse difficulty to an integer
+        meaning,
+      });
+      return await newWord.save();
+    } catch (error) {
+      throw new Error('Error adding word');
+    }
+  },
     createUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
@@ -78,6 +82,16 @@ const resolvers = {
     //     throw new Error('Error adding profile');
     //   }
     // },
+
+    updatePlayerLevel: async (_, { userId, newLevel }) => {
+      try {
+        const updatedUser = await User.findByIdAndUpdate(userId, { level: newLevel }, { new: true });
+        return updatedUser;
+      } catch (error) {
+        throw new Error('Failed to update player level');
+      }
+    },
+    
   };
 
 module.exports = resolvers;
