@@ -1,6 +1,7 @@
 const Word = require('../models/Word');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
@@ -34,6 +35,20 @@ const resolvers = {
     },
   },
   Mutation: {
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+          throw new AuthenticationError("Incorrect login credentials!");
+      };
+      
+      const correctPW = await user.isCorrectPassword(password);
+      if (!correctPW) {
+          throw new AuthenticationError("Incorrect login credentials!");
+      };
+      const token = signToken(user);
+      return { token, user };
+  },
+
     addWord: async (_, { word, difficulty, meaning }) => {
       try {
         const newWord = new Word({ word, difficulty, meaning });
