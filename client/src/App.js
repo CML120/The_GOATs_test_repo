@@ -18,8 +18,8 @@ import Home from "./components/pages/Home";
 import Footer from "./components/Footer";
 
 const httpLink = createHttpLink({
-  uri: "/graphql",
-});
+  uri: 'http://www.localhost:3001/graphql',
+  });
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
   // uri: "/graphql",

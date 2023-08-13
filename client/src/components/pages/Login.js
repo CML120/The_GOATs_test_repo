@@ -2,7 +2,19 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
-import { Input } from '@chakra-ui/react'
+import './Login.css';
+
+import {
+  Input,
+  Button,
+  Container,
+  Box,
+  Flex,
+  Center,
+  Stack,
+  VStack,
+  Spacer,
+} from '@chakra-ui/react'
 
 import Auth from '../../utils/auth';
 
@@ -42,54 +54,70 @@ const Login = (props) => {
   };
 
   return (
-    <main className="">
-      <div className="">
-        <div className="">
-          <h2 className="">Login</h2>
-          <div className="">
-            {data ? (
-              <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the homepage.</Link>
-              </p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
-                <label for="Input1" class="form-label">Email: </label>
-                <input
-                  className=""
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                <label for="Input2" class="form-label">Password: </label>
-                <input
-                  className=""
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                <button
-                  className=""
-                  style={{ cursor: 'pointer' }}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
-            )}
+    <main className="" id='loginForm'>
+      <Flex>
+        <Center width={"100vw"}>
+            <Container height={"25vh"}>
+            <VStack spacing='1vh'>
+              <Box>
+                Login
+              </Box>
+              </VStack>
+              <VStack spacing='1vh'>
+              <Box>
+                {data ? (
+                  <Box>
+                    Success! You may now head{' '}
+                    <Link to="/">back to the homepage.</Link>
+                  </Box>
+                ) : (
+                  <form onSubmit={handleFormSubmit}>
+                    <Box>
+                      <label for="Input1" class="form-label">Email: </label>
+                      <input
+                        className=""
+                        placeholder="Your email"
+                        name="email"
+                        type="email"
+                        value={formState.email}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                    <Box>
+                      <label for="Input2" class="form-label">Password: </label>
+                      <input
+                        className=""
+                        placeholder="******"
+                        name="password"
+                        type="password"
+                        value={formState.password}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                    <Spacer />
+                    <Box>
+                      <Button size='lg' borderRadius='lg' bg='black' color='white' 
+                        className=""
+                        style={{ cursor: 'pointer' }}
+                        type="submit"
+                      >
+                        Submit
+                      </Button>
+                    </Box>
+                    <Spacer />
+                  </form>
+                )}
 
-            {error && (
-              <div className="">
-                {error.message}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+                {error && (
+                  <div className="">
+                    {error.message}
+                  </div>
+                )}
+                </Box>
+              </VStack>
+            </Container>
+        </Center>
+      </Flex>
     </main>
   );
 };

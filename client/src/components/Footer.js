@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 const style = {
   upperStyle: {
-    backgroundColor: "#290c0c",
+    backgroundColor: "#1fa2fa",
     color: "white",
     padding: "1%",
     textAlign: "center",
