@@ -66,7 +66,12 @@ function LetterGame() {
 
   return (
     <div>
-      <h3>Guess the Next Letter</h3>
+      <p>
+        It's fun! As you hit the play button at the bottom, a letter will pop
+        up. All you do is to write your answer in the white space and hit the
+        submit. Then, you will see the answer, the next letter as well as your
+        score.
+      </p>
       <p>Score: {score}</p>
 
       <div>
@@ -81,12 +86,12 @@ function LetterGame() {
           onChange={(e) => setUserGuess(e.target.value)}
           placeholder="write here"
         />
-        <button onClick={checkUserGuess}>Check</button>
+        <button onClick={checkUserGuess}>Submit</button>
         {score >= 5 && showCongratulation && (
           <div>
-            <p>Congratulation! You have completed the game</p>
+            <p>Congratulation! You have completed the game.</p>
             <Link to="/spellinggame">Play Spelling Game</Link>
-            <Link to="/letters">Learn More</Link>
+            {/* <Link to="/letters">Learn More</Link>    may be to the play ground*/}
           </div>
         )}
 
@@ -102,7 +107,7 @@ function LetterGame() {
         )}
       </div>
 
-      <button onClick={playGame}>Another Round</button>
+      <button onClick={playGame}>Play</button>
     </div>
   );
 }

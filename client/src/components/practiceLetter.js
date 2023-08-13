@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { GiphyFetch } from "@giphy/js-fetch-api";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import {
+  Button,
+  ButtonGroup,
+  ScaleFade,
+  useDisclosure,
+  Box,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react";
 import LetterGame, { AllLettersInOne } from "./LetterGame";
 // import SpeechRecognitionComponent from "./SpeechRecognitionComponent";
 // import SpellingGame from "./SpellingGame";
@@ -158,52 +169,97 @@ export default function PracticeLetter() {
   }, [showLetters, currentLetterIndex]);
 
   return (
-    <div>
-      <div className="speech-recognition-practice">
-        <h2>Voice Command Practice</h2>
+    <Tabs>
+      <TabList>
+        <Tab>Learn All Letters</Tab>
+        <Tab>Learn the Sound</Tab>
+        <Tab>Practice the Sound</Tab>
 
-        <Button colorScheme="teal" size="lg" onClick={startSoundRecognition}>
-          {" "}
-          {/* first I tried to use the body.document.onclick to start the instance  */}
-          Start Practice
-        </Button>
-        <Button onClick={showLetterHandler}>Show Letter</Button>
-        <p>It sounds: {userSound}</p>
-      </div>
-      <div>
-        {showLetters && (
-          <div>
-            <div key={letters[currentLetterIndex - 1]}>
-              {letters[currentLetterIndex - 1]}
-              <div>
-                {results.length > 0 && <GiphysResponse gifs={results} />}
-              </div>
-            </div>
+        <Tab>Test Yourselves</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <h5>Welcome!</h5>
+          <p>
+            Your first step begins here to be a G.R.O.A.T GOAT (Greatest Reader
+            Of All Time)
+          </p>
+          <p>
+            Learn the letters, and you can also press each letter to listen to
+            its sound
+          </p>
+          <div id="allLettersInOne-div">
+            <AllLettersInOne letters={letters} onClick={soundGenerator} />
           </div>
-        )}
-      </div>
-      <div>
-        <LetterGame />
-      </div>
-      <div>
-        <AllLettersInOne letters={letters} onClick={soundGenerator} />
-      </div>
-    </div>
+        </TabPanel>
+        <TabPanel>
+          <>
+            <h5>Welcome! </h5>
+            <p>
+              {" "}
+              Here you are going to learn the sound of all letters in just one
+              click{" "}
+            </p>
+            <Button onClick={showLetterHandler}>Show Letter</Button>
+
+            <div>
+              {showLetters && (
+                <div>
+                  <div key={letters[currentLetterIndex - 1]}>
+                    {letters[currentLetterIndex - 1]}
+                    <div>
+                      {results.length > 0 && <GiphysResponse gifs={results} />}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        </TabPanel>
+
+        <TabPanel>
+          <div className="speech-recognition-practice">
+            <h2>Voice Command Practice</h2>
+            <p>
+              Get closer to the microphone, click the start button, and speak
+              out the letter randomly.
+            </p>
+            <p>You will heer back your sound...</p>
+
+            <Button
+              colorScheme="teal"
+              size="lg"
+              onClick={startSoundRecognition}
+            >
+              {" "}
+              {/* first I tried to use the body.document.onclick to start the instance  */}
+              Start Practice
+            </Button>
+            <p>It sounds: {userSound}</p>
+          </div>
+        </TabPanel>
+
+        <TabPanel>
+          <h5>Guess the Next Letter </h5>
+          <LetterGame />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+
+    // <div>
+    //   <Button onClick={onToggle}>Display All Letters</Button>
+    //   <ScaleFade initialScale={0.9} in={isOpen}>
+    //     <Box
+    //       p="5rem"
+    //       color="white"
+    //       mt="4"
+    //       bg="tomato"
+    //       rounded="md"
+    //       shadow="md"
+    //     >
+    //       <AllLettersInOne letters={letters} onClick={soundGenerator} />
+    //     </Box>
+    //   </ScaleFade>
+    // </div>
   );
 }
-// Replaced by giphy Api
-// const fetchImage = async (letter) => {
-//   try {
-//     const response = await fetch(
-//       `https://pixabay.com/api/?key=38701570-0befaa528a5e1f9f2fa4818cc&q=${letter}&image_type=photo`
-//     );
-//     const data = await response.json();
-//     if (data.hits.length > 0) {
-//       const image = data.hits[0].webformatURL;
-//       setNewImage(image);
-//       console.log("Image URL:", image);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching image:", error);
-//   }
-// }

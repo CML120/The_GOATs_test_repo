@@ -1,6 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import "./App.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
@@ -14,7 +19,7 @@ import Footer from "./components/Footer";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
-  });
+});
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
   // uri: "/graphql",
@@ -26,29 +31,25 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div >
+        <div>
           <Navbar />
 
-          <div>
-            <GameScreen />
-          </div>
           <div className="mainContainer">
-            <Routes>
-              {/* <Route
+            <div>
+              <GameScreen />
+            </div>
+            <div className="contentOnly">
+              <Routes>
+                {/* <Route
             path="/home"
             element={<Home />}
           /> */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route
-            path="/letters"
-            element={<PracticeLetter />}
-          />
-          <Route
-            path="/spellinggame"
-            element={<SpellingGame />}
-          />
-            </Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/letters" element={<PracticeLetter />} />
+                <Route path="/spellinggame" element={<SpellingGame />} />
+              </Routes>
+            </div>
           </div>
 
           <Footer />

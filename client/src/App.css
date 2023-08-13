@@ -46,5 +46,9 @@
 }
 .mainContainer {
   min-height: 50rem;
-  background-color: rgb(243, 225, 225);
+  background: url("/public/images/main-bgrd.jpg");
+  background-size: 100% 100%;
+}
+.contentOnly {
+  margin: 0 5rem;
 }
