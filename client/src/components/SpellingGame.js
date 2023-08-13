@@ -4,7 +4,7 @@ import SpeechRecognitionComponent from './SpeechRecognitionComponent'; // Import
 import './SpellingGame.css';
 //importing dependencies for fetching words from the database
 import { useQuery } from '@apollo/client';
-import { FETCH_WORDS } from '../utils/queries';
+import { FETCH_WORDS_BY_DIFFICULTY } from '../utils/queries';
 
 
 const SpellingGame = () => {
@@ -20,22 +20,29 @@ const SpellingGame = () => {
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
     const wordsArray = [];
 
-  // Function to get a random word from the wordsArray
-  const getRandomWord = () => {
+// Function to get a random word from the wordsArray or database based on player level
+const getRandomWord = () => {
+  if (!loading && data && data.getWordsByDifficulty.length > 0) {
+    const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
+    return data.getWordsByDifficulty[randomIndex].word;
+  } else {
     const randomIndex = Math.floor(Math.random() * wordsArray.length);
     return wordsArray[randomIndex];
-  };
+  }
+};
 
-  const { loading, error, data } = useQuery(FETCH_WORDS, {
+
+  // fetch words based on the player's current level
+  const { loading, error, data } = useQuery(FETCH_WORDS_BY_DIFFICULTY, {
     variables: { level: currentLevel },
   });
 
-
+  // Gets a random word from the database that was previously determined by the player level
   useEffect(() => {
-    if (!loading && data && data.getWordsByLevel.length > 0) {
-      setCorrectWord(data.getWordsByLevel[0].word);
+    if (!loading && data && data.getWordsByDifficulty.length > 0) {
+      const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
+      setCorrectWord(data.getWordsByDifficulty[randomIndex].word);
       setIsNewWordNeeded(false);
-      console.log(wordsArray);
     }
   }, [loading, data, currentLevel]);
 
@@ -137,6 +144,7 @@ const SpellingGame = () => {
   const handleNewWord = () => {
     setSpokenWord('');
     setIsNewWordNeeded(true);
+    setCorrectWord(getRandomWord()); 
   };
 
   return (

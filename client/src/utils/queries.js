@@ -40,3 +40,11 @@ export const UPDATE_PLAYER_LEVEL = gql`
     }
   }
 `;
+
+export const FETCH_WORDS_BY_DIFFICULTY = gql`
+  query Query($level: Int!) {
+    getWordsByDifficulty(level: $level) {
+      word
+    }
+  }
+`;
