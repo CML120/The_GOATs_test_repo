@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
 const wordSchema = new mongoose.Schema({
-  // word: String,
-  // difficulty: String,
-  // //meaning: String,
-  // // other fields...
+  word: String,
+  level: Number,
 });
 
 const Word = mongoose.model('Word', wordSchema);

@@ -23,3 +23,15 @@ export const CREATE_USER = gql`
         }
     }
 `;
+
+
+export const UPDATE_PLAYER_LEVEL = gql`
+  mutation UpdatePlayerLevel($userId: ID!, $newLevel: Int!) {
+    updatePlayerLevel(userId: $userId, newLevel: $newLevel) {
+      _id
+      username
+      email
+      level
+    }
+  }
+`;

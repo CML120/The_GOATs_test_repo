@@ -4,8 +4,7 @@ const typeDefs = gql`
   type Word {
     _id: ID!
     word: String!
-    difficulty: String!
-    meaning: String
+    difficulty: Int!
   }
 
   type User {
@@ -46,6 +45,11 @@ const typeDefs = gql`
   input ProfileInput {
     _id: ID!
   }
+
+  type Mutation {
+    updatePlayerLevel(userId: ID!, newLevel: Int!): User
+  }
+  
 `;
 
 module.exports = typeDefs;
