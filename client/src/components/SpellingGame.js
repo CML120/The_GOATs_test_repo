@@ -5,7 +5,8 @@ import './SpellingGame.css';
 //importing dependencies for fetching words from the database
 import { useQuery } from '@apollo/client';
 import { FETCH_WORDS_BY_DIFFICULTY } from '../utils/queries';
-
+import { GiphyFetch } from "@giphy/js-fetch-api";
+const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
 
 const SpellingGame = () => {
   // State variables 
@@ -16,20 +17,22 @@ const SpellingGame = () => {
   const [typedWord, setTypedWord] = useState(''); //the word typed by the player
   const [isNewWordNeeded, setIsNewWordNeeded] = useState(true); //keeps track of whether a new word needs to be generated
   const [message, setMessage] = useState(''); //the message to be displayed to the player in the message div on the page
+  const [gifUrl, setGifUrl] = useState(''); //the url of the gif to be displayed to the player in the message div on the page
+  const [altText, setAltText] = useState(''); //the alt text to be displayed to the player in the message div on the page
 
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
-    const wordsArray = [];
+  const wordsArray = [];
 
-// Function to get a random word from the wordsArray or database based on player level
-const getRandomWord = () => {
-  if (!loading && data && data.getWordsByDifficulty.length > 0) {
-    const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
-    return data.getWordsByDifficulty[randomIndex].word;
-  } else {
-    const randomIndex = Math.floor(Math.random() * wordsArray.length);
-    return wordsArray[randomIndex];
-  }
-};
+  // Function to get a random word from the wordsArray or database based on player level
+  const getRandomWord = () => {
+    if (!loading && data && data.getWordsByDifficulty.length > 0) {
+      const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
+      return data.getWordsByDifficulty[randomIndex].word;
+    } else {
+      const randomIndex = Math.floor(Math.random() * wordsArray.length);
+      return wordsArray[randomIndex];
+    }
+  };
 
 
   // fetch words based on the player's current level
@@ -41,16 +44,20 @@ const getRandomWord = () => {
   useEffect(() => {
     if (!loading && data && data.getWordsByDifficulty.length > 0) {
       const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
-      setCorrectWord(data.getWordsByDifficulty[randomIndex].word);
+      const newCorrectWord = data.getWordsByDifficulty[randomIndex].word;
+      setCorrectWord(newCorrectWord);
       setIsNewWordNeeded(false);
+      giphyWordImage(newCorrectWord); // Fetch and display the GIF image
     }
   }, [loading, data, currentLevel]);
-
+  
   useEffect(() => {
     // Generate a new correct word when needed
     if (isNewWordNeeded) {
-      setCorrectWord(getRandomWord());
+      const newCorrectWord = getRandomWord();
+      setCorrectWord(newCorrectWord);
       setIsNewWordNeeded(false);
+      giphyWordImage(newCorrectWord); // Fetch and display the GIF image
     }
   }, [isNewWordNeeded]);
 
@@ -96,6 +103,7 @@ const getRandomWord = () => {
       setCorrectWordsCount(0);
     }
     handleNewWord(); // Generate a new word for the game
+    
   };
 
   // Clear spoken letters
@@ -144,8 +152,25 @@ const getRandomWord = () => {
   const handleNewWord = () => {
     setSpokenWord('');
     setIsNewWordNeeded(true);
-    setCorrectWord(getRandomWord()); 
+    setCorrectWord(getRandomWord());
   };
+
+  // handle fetching an image and title from giphy based on the selected word
+  const giphyWordImage = async (word) => {
+    try {
+      const gifResponse = await giphyFetch.search(word);
+      
+      if (gifResponse.data && gifResponse.data.length > 0) {
+        const fetchedGifUrl = gifResponse.data[0].images.downsized_medium.url;
+        const fetchedAltText = gifResponse.title;
+        setGifUrl(fetchedGifUrl);
+        setAltText(fetchedAltText);
+      }
+    } catch (error) {
+      console.error("Error fetching GIF:", error);
+    }
+  };
+  
 
   return (
     <div className="spelling-game">
@@ -154,7 +179,15 @@ const getRandomWord = () => {
       <div className="message-container">
         <p className="message">{message}</p>
       </div>
-      <p>Level: {currentLevel}</p>
+      <p>
+  Level: {currentLevel <= 5 ? (
+    Array.from({ length: currentLevel }, (_, index) => (
+      <span key={index}>&#9733;</span>
+    ))
+  ) : (
+    "G.R.O.A.T."
+  )}
+</p>
       <p>Correct Words: {correctWordsCount}</p>
       <p>Selected Word: "{correctWord}"</p>
       <SpeechRecognitionComponent handleSpokenWord={handleSpokenWord} />
@@ -175,6 +208,12 @@ const getRandomWord = () => {
         />
         <button type="button" onClick={handleCheckSpelling}>Check Spelling</button>
       </div>
+
+      <div className="gif-container">
+        {gifUrl && <img src={gifUrl} alt={altText} />}
+   
+      </div>
+
     </div>
   );
 };
