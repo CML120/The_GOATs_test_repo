@@ -21,22 +21,22 @@ export const GET_PROFILE = gql`
     }
 `;
 
-// export const FETCH_WORDS = gql`
-//   query FetchWords($level: Int!) {
-//     getWordsByLevel(level: $level) {
-//       _id
-//       word
-//     }
-//   }
-// `;
+export const FETCH_WORDS = gql`
+  query FetchWords($level: Int!) {
+    getWordsByLevel(level: $level) {
+      _id
+      word
+    }
+  }
+`;
 
-// export const UPDATE_PLAYER_LEVEL = gql`
-//   mutation UpdatePlayerLevel($userId: ID!, $newLevel: Int!) {
-//     updatePlayerLevel(userId: $userId, newLevel: $newLevel) {
-//       _id
-//       username
-//       email
-//       level
-//     }
-//   }
-// `;
+export const UPDATE_PLAYER_LEVEL = gql`
+  mutation UpdatePlayerLevel($userId: ID!, $newLevel: Int!) {
+    updatePlayerLevel(userId: $userId, newLevel: $newLevel) {
+      _id
+      username
+      email
+      level
+    }
+  }
+`;

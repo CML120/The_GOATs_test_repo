@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import SpeechRecognitionComponent from './SpeechRecognitionComponent'; // Import the SpeechRecognitionComponent
 import './SpellingGame.css';
+//importing dependencies for fetching words from the database
+import { useQuery } from '@apollo/client';
+import { FETCH_WORDS } from '../utils/queries';
+
 
 const SpellingGame = () => {
   // State variables 
@@ -13,13 +17,27 @@ const SpellingGame = () => {
   const [isNewWordNeeded, setIsNewWordNeeded] = useState(true); //keeps track of whether a new word needs to be generated
   const [message, setMessage] = useState(''); //the message to be displayed to the player in the message div on the page
 
-  const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
+  // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
+    const wordsArray = [];
 
   // Function to get a random word from the wordsArray
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * wordsArray.length);
     return wordsArray[randomIndex];
   };
+
+  const { loading, error, data } = useQuery(FETCH_WORDS, {
+    variables: { level: currentLevel },
+  });
+
+
+  useEffect(() => {
+    if (!loading && data && data.getWordsByLevel.length > 0) {
+      setCorrectWord(data.getWordsByLevel[0].word);
+      setIsNewWordNeeded(false);
+      console.log(wordsArray);
+    }
+  }, [loading, data, currentLevel]);
 
   useEffect(() => {
     // Generate a new correct word when needed

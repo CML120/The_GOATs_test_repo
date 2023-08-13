@@ -13,9 +13,9 @@ const resolvers = {
         throw new Error('Error fetching word');
       }
     },
-    getWordsByDifficulty: async (_, { difficulty }) => {
+    getWordsByDifficulty: async (_, { level }) => {
       try {
-        return await Word.find({ difficulty: parseInt(difficulty) });
+        return await Word.find({ level: parseInt(level) });
       } catch (error) {
         throw new Error('Error fetching words');
       }
@@ -50,11 +50,11 @@ const resolvers = {
       return { token, user };
     },
 
-    addWord: async (_, { word, difficulty, meaning }) => {
+    addWord: async (_, { word, level, meaning }) => {
       try {
         const newWord = new Word({
           word,
-          difficulty: parseInt(difficulty), // Parse difficulty to an integer
+          difficulty: parseInt(level), // Parse difficulty to an integer
           meaning,
         });
         return await newWord.save();
