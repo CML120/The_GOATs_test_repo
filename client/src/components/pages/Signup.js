@@ -4,7 +4,21 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../utils/mutations';
 
+import './Signup.css';
+
 import Auth from '../../utils/auth';
+
+import {
+  Input,
+  Button,
+  Container,
+  Box,
+  Flex,
+  Center,
+  Stack,
+  VStack,
+  Spacer,
+} from '@chakra-ui/react'
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -37,9 +51,10 @@ console.log(data);
   };
 
   return (
-    <main className="">
-      <div className="">
-        <div className="">
+    <main id="signupForm"className="">
+      <Flex>
+        <Center width={"100vw"}>
+        <VStack spacing='1vh'>
           <h1 className="">Sign Up</h1>
           <div className="">
             {data ? (
@@ -49,6 +64,7 @@ console.log(data);
               </p>
             ) : (
               <form onSubmit={handleFormSubmit}>
+                 <Box>
                 <label for="Input1" class="form-label">Username: </label>
                 <input
                   className=""
@@ -58,6 +74,9 @@ console.log(data);
                   value={formState.name}
                   onChange={handleChange}
                 />
+                </Box>
+                <Spacer />
+                <Box>
                 <label for="Input2" class="form-label">Email: </label>
                 <input
                   className=""
@@ -67,6 +86,9 @@ console.log(data);
                   value={formState.email}
                   onChange={handleChange}
                 />
+                </Box>
+                <Spacer />
+                <Box>
                 <label for="Input3" class="form-label">Password: </label>
                 <input
                   className=""
@@ -76,13 +98,18 @@ console.log(data);
                   value={formState.password}
                   onChange={handleChange}
                 />
-                <button
-                  className=""
-                  style={{ cursor: 'pointer' }}
-                  type="submit"
-                >
-                  Submit
-                </button>
+                </Box>
+                <Spacer />
+                    <Box>
+                      <Button size='lg' borderRadius='lg' bg='black' color='white'
+                        className=""
+                        style={{ cursor: 'pointer' }}
+                        type="submit"
+                      >
+                        Submit
+                      </Button>
+                    </Box>
+                    <Spacer />
               </form>
             )}
 
@@ -92,8 +119,9 @@ console.log(data);
               </div>
             )}
           </div>
-        </div>
-      </div>
+          </VStack>
+        </Center>
+      </Flex>
     </main>
   );
 };
