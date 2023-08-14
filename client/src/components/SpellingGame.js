@@ -226,13 +226,19 @@ const SpellingGame = () => {
       {/* <p>Correct Words: {correctWordsCount}</p>
       <p>Selected Word: "{correctWord}"</p> */}
       <SpeechRecognitionComponent handleSpokenWord={handleSpokenWord} />
-      <button onClick={() => speakWord(correctWord)}>Hear Word</button>
-      <button onClick={clearSpokenLetters}>Clear Spoken Letters</button>
+      <button type="button" onClick={handleNewWord}>New Word</button>
+
+      <div className="button-container">
+        <button onClick={() => speakWord(correctWord)}>Hear Word</button>
+        <button onClick={clearSpokenLetters}>Clear Spoken Letters</button>
+        <button onClick={checkSpelling}>Check Spelling</button>
+      </div>
+
       <div className="spoken-word-container">
         <p>Spoken Letters: {spokenWord}</p>
       </div>
-      <button onClick={checkSpelling}>Check Spelling</button>
-      <button type="button" onClick={handleNewWord}>New Word</button>
+
+      
       <div>
         <input
           type="text"
