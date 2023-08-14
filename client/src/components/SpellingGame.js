@@ -1,3 +1,7 @@
+//Importing sounds
+import buzzAudio from '../assets/buzz.wav';
+import dingAudio from '../assets/ding.mp3';
+import { Bounce } from "react-awesome-reveal"; //Bounce animation from react-awesome-reveal
 //Import dependencies
 import React, { useState, useEffect } from 'react';
 import SpeechRecognitionComponent from './SpeechRecognitionComponent'; // Import the SpeechRecognitionComponent
@@ -5,8 +9,10 @@ import './SpellingGame.css';
 //importing dependencies for fetching words from the database
 import { useQuery } from '@apollo/client';
 import { FETCH_WORDS_BY_DIFFICULTY } from '../utils/queries';
-import { GiphyFetch } from "@giphy/js-fetch-api";
-const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
+// import { GiphyFetch } from "@giphy/js-fetch-api";
+// const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
+
+
 
 
 const SpellingGame = () => {
@@ -21,6 +27,7 @@ const SpellingGame = () => {
   const [gifUrl, setGifUrl] = useState(''); //the url of the gif to be displayed to the player in the div on the page
   const [altText, setAltText] = useState(''); //the alt text to be displayed to the player in the div on the page
   const [imageUrl, setImageUrl] = useState(null); // Add imageUrl to state
+  const [messageVisible, setMessageVisible] = useState(false);
 
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
   const wordsArray = [];
@@ -35,7 +42,7 @@ const SpellingGame = () => {
     }
   };
 
-  
+
   // Function to get a random word from the wordsArray or database based on player level
   const getRandomWord = () => {
     // Check if there's no loading, data exists, and there are words fetched from the database
@@ -82,7 +89,7 @@ const SpellingGame = () => {
       const newCorrectWord = getRandomWord();
       setCorrectWord(newCorrectWord);
       setIsNewWordNeeded(false);
-      
+
       // Fetch and display the GIF image
       importWordImage(newCorrectWord).then(imageUrl => {
         if (imageUrl) {
@@ -91,6 +98,19 @@ const SpellingGame = () => {
       });
     }
   }, [isNewWordNeeded]);
+
+
+  // UseEffect to control the message display duration
+  useEffect(() => {
+    if (message) {
+      setMessageVisible(true);
+      const timeout = setTimeout(() => {
+        setMessageVisible(false);
+        setMessage(''); // Clear the message after timeout
+      }, 1350);
+      return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
+    }
+  }, [message]);
 
   // Function to speak a word using the Web Speech API
   const speakWord = (word) => {
@@ -125,6 +145,10 @@ const SpellingGame = () => {
       handleCorrectWord();
     } else {
       setMessage('Incorrect spelling. Try again.');
+
+      // Play the "wrong" audio
+      const wrongAudio = new Audio(buzzAudio);
+      wrongAudio.play();
     }
   };
 
@@ -136,6 +160,11 @@ const SpellingGame = () => {
       setCurrentLevel((prevLevel) => prevLevel + 1); // Increment the current level
       setCorrectWordsCount(0); // Reset the correct word count to 0
     }
+
+    // Play the "correct" audio
+    const correctAudio = new Audio(dingAudio);
+    correctAudio.play();
+
     handleNewWord(); // Generate a new word for the game
 
   };
@@ -168,6 +197,9 @@ const SpellingGame = () => {
         handleCorrectWord();
       } else {
         setMessage('Incorrect spelling. Please try again.');
+        // Play the "wrong" audio
+        const wrongAudio = new Audio(buzzAudio);
+        wrongAudio.play();
       }
     } else {
       setMessage('Please enter a valid word.');
@@ -191,29 +223,35 @@ const SpellingGame = () => {
 
   // handle fetching an image and title from giphy based on the selected word
   //makes an asynchronous call to the giphy api to fetch the gif and title
-  const giphyWordImage = async (word) => {
-    try {
-      const gifResponse = await giphyFetch.search(word);
-      //check if the response contains
-      if (gifResponse.data && gifResponse.data.length > 0) {
-        const fetchedGifUrl = gifResponse.data[0].images.downsized_medium.url;
-        const fetchedAltText = gifResponse.title;
-        setGifUrl(fetchedGifUrl);
-        setAltText(fetchedAltText);
-      }
-    } catch (error) {
-      console.error("Error fetching GIF:", error);
-    }
-  };
+  // const giphyWordImage = async (word) => {
+  //   try {
+  //     const gifResponse = await giphyFetch.search(word);
+  //     //check if the response contains
+  //     if (gifResponse.data && gifResponse.data.length > 0) {
+  //       const fetchedGifUrl = gifResponse.data[0].images.downsized_medium.url;
+  //       const fetchedAltText = gifResponse.title;
+  //       setGifUrl(fetchedGifUrl);
+  //       setAltText(fetchedAltText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching GIF:", error);
+  //   }
+  // };
 
 
   return (
     <div className="spelling-game">
       <h1>Spelling Game</h1>
       <h2>Please have your microphone plugged in and ready!</h2>
+      
       <div className="message-container">
-        <p className="message">{message}</p>
-      </div>
+      {message && (
+        <Bounce>
+          <p className="message">{message}</p>
+        </Bounce>
+      )}
+    </div>
+      
       <p>
         Level: {currentLevel <= 5 ? (
           Array.from({ length: currentLevel }, (_, index) => (
@@ -238,7 +276,7 @@ const SpellingGame = () => {
         <p>Spoken Letters: {spokenWord}</p>
       </div>
 
-      
+
       <div>
         <input
           type="text"
@@ -251,7 +289,7 @@ const SpellingGame = () => {
       </div>
 
       <div className="gif-container">
-        {imageUrl && <img src={imageUrl} alt={altText} className="responsive-image"/>}
+        {imageUrl && <img src={imageUrl} alt={altText} className="responsive-image" />}
       </div>
     </div>
   );

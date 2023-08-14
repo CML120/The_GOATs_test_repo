@@ -69,3 +69,15 @@
     border:rgb(0, 0, 0);
     border: 5px solid rgb(14, 53, 30);
   }
+
+  .button-container {
+    display: flex;
+    gap: 10px; 
+    justify-content: center; 
+    margin-top: 10px; 
+  }
+
+  /* .message-container { 
+    opacity: 0;
+    transition: opacity 2s ease;
+  } */
