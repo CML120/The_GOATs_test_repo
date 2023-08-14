@@ -61,7 +61,7 @@ function WordGuessGame() {
 
 useEffect(() => {
     if (chosenWord && gameStarted) {
-        setImageUrl(`/assets/${chosenWord}.gif`);
+        setImageUrl(`/images/${chosenWord}.gif`);
     }
 }, [chosenWord, gameStarted]);
 
