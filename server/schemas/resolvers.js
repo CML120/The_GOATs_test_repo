@@ -13,9 +13,9 @@ const resolvers = {
         throw new Error('Error fetching word');
       }
     },
-    getWordsByDifficulty: async (_, { difficulty }) => {
+    getWordsByDifficulty: async (_, { level }) => {
       try {
-        return await Word.find({ difficulty: parseInt(difficulty) });
+        return await Word.find({ level: parseInt(level) });
       } catch (error) {
         throw new Error('Error fetching words');
       }
@@ -39,50 +39,34 @@ const resolvers = {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
-          throw new AuthenticationError("Incorrect login credentials!");
+        throw new AuthenticationError("Incorrect login credentials!");
       };
-      
+
       const correctPW = await user.isCorrectPassword(password);
       if (!correctPW) {
-          throw new AuthenticationError("Incorrect login credentials!");
+        throw new AuthenticationError("Incorrect login credentials!");
       };
       const token = signToken(user);
       return { token, user };
-  },
+    },
 
-  addWord: async (_, { word, difficulty, meaning }) => {
-    try {
-      const newWord = new Word({
-        word,
-        difficulty: parseInt(difficulty), // Parse difficulty to an integer
-        meaning,
-      });
-      return await newWord.save();
-    } catch (error) {
-      throw new Error('Error adding word');
-    }
-  },
+    addWord: async (_, { word, level, meaning }) => {
+      try {
+        const newWord = new Word({
+          word,
+          difficulty: parseInt(level), // Parse difficulty to an integer
+          meaning,
+        });
+        return await newWord.save();
+      } catch (error) {
+        throw new Error('Error adding word');
+      }
+    },
     createUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
     },
-      // try {
-      //   const newUser = new User({ username, email, password });
-      //   return await newUser.save();
-      // } catch (error) {
-      //   throw new Error('Error adding user');
-      // }
-    },
-    // addProfile: async (_, { profileFields }) => {
-    //   try {
-    //     const newProfile = new Profile(profileFields);
-    //     return await newProfile.save();
-    //   } catch (error) {
-    //     throw new Error('Error adding profile');
-    //   }
-    // },
-
     updatePlayerLevel: async (_, { userId, newLevel }) => {
       try {
         const updatedUser = await User.findByIdAndUpdate(userId, { level: newLevel }, { new: true });
@@ -91,7 +75,24 @@ const resolvers = {
         throw new Error('Failed to update player level');
       }
     },
-    
-  };
+  
+    // try {
+    //   const newUser = new User({ username, email, password });
+    //   return await newUser.save();
+    // } catch (error) {
+    //   throw new Error('Error adding user');
+    // }
+    // },
+    // addProfile: async (_, { profileFields }) => {
+    //   try {
+    //     const newProfile = new Profile(profileFields);
+    //     return await newProfile.save();
+    //   } catch (error) {
+    //     throw new Error('Error adding profile');
+    //   }
+  },
+
+
+};
 
 module.exports = resolvers;

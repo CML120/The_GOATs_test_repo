@@ -4,9 +4,11 @@ import PracticeLetter from "./practiceLetter";
 import GameNavBar from "./GameNavBar";
 import phoneticsPractice from "./phoneticsPractice";
 import PlayGround from "./PlayGround";
+import Home from "./pages/Home";
 
 function GameScreen() {
-  const [activePage, setActivePage] = useState("Play Ground");
+  const [activePage, setActivePage] = useState(" ");
+
 
   let currentPage;
   if (activePage === "Play Ground") {
@@ -17,6 +19,8 @@ function GameScreen() {
     currentPage = <phoneticsPractice />;
   } else if (activePage === "Spelling Game") {
     currentPage = <SpellingGame />;
+  } else {
+    currentPage = <Home />;
   }
 
   return (
