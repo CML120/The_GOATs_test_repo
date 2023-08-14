@@ -8,6 +8,7 @@ import { FETCH_WORDS_BY_DIFFICULTY } from '../utils/queries';
 import { GiphyFetch } from "@giphy/js-fetch-api";
 const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
 
+
 const SpellingGame = () => {
   // State variables 
   const [spokenWord, setSpokenWord] = useState(''); // the letter(s) or word spoken by the player
@@ -19,10 +20,22 @@ const SpellingGame = () => {
   const [message, setMessage] = useState(''); //the message to be displayed to the player in the message div on the page
   const [gifUrl, setGifUrl] = useState(''); //the url of the gif to be displayed to the player in the div on the page
   const [altText, setAltText] = useState(''); //the alt text to be displayed to the player in the div on the page
+  const [imageUrl, setImageUrl] = useState(null); // Add imageUrl to state
 
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
   const wordsArray = [];
 
+  const importWordImage = async (word) => {
+    try {
+      const wordImage = await import(`../assets/${word}.jpg`);
+      return wordImage.default;
+    } catch (error) {
+      console.error("Error importing image:", error);
+      return null;
+    }
+  };
+
+  
   // Function to get a random word from the wordsArray or database based on player level
   const getRandomWord = () => {
     // Check if there's no loading, data exists, and there are words fetched from the database
@@ -46,13 +59,19 @@ const SpellingGame = () => {
 
   // Gets a random word from the database that was previously determined by the player level
   //useEffect hook runs when the dependencies are changed or updated, this first use effect sets the initial word
+  //imports image based on selected word and sets it to the imageUrl
   useEffect(() => {
     if (!loading && data && data.getWordsByDifficulty.length > 0) {
       const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
       const newCorrectWord = data.getWordsByDifficulty[randomIndex].word;
       setCorrectWord(newCorrectWord);
       setIsNewWordNeeded(false);
-      giphyWordImage(newCorrectWord); // Fetch and display the GIF image
+
+      importWordImage(newCorrectWord).then(imageUrl => {
+        if (imageUrl) {
+          setImageUrl(imageUrl);
+        }
+      });
     }
   }, [loading, data, currentLevel]);
 
@@ -63,7 +82,13 @@ const SpellingGame = () => {
       const newCorrectWord = getRandomWord();
       setCorrectWord(newCorrectWord);
       setIsNewWordNeeded(false);
-      giphyWordImage(newCorrectWord); // Fetch and display the GIF image
+      
+      // Fetch and display the GIF image
+      importWordImage(newCorrectWord).then(imageUrl => {
+        if (imageUrl) {
+          setImageUrl(imageUrl); // Update the imageUrl state
+        }
+      });
     }
   }, [isNewWordNeeded]);
 
@@ -220,9 +245,8 @@ const SpellingGame = () => {
       </div>
 
       <div className="gif-container">
-        {gifUrl && <img src={gifUrl} alt={altText} />}
+        {imageUrl && <img src={imageUrl} alt={altText} className="responsive-image"/>}
       </div>
-
     </div>
   );
 };

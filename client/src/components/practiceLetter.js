@@ -186,9 +186,9 @@ export default function PracticeLetter() {
               Learn the letters, and you can also press each letter to listen to
               its sound
             </p>
-            <div id="allLettersInOne-div">
+            {/* <div id="allLettersInOne-div">
               <AllLettersInOne letters={letters} onClick={soundGenerator} />
-            </div>
+            </div> */}
           </TabPanel>
           <TabPanel className="each-tabPanel">
             <>

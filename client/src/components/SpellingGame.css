@@ -57,3 +57,13 @@
     top: 25%; /* Adjust the distance from the top as needed */
     right: 5%; /* Adjust the distance from the right as needed */
   }
+
+  .responsive-image {
+    position: fixed;
+    top: 35%; 
+    right: 8%; 
+    width: 25%; 
+    height: 35%; 
+    border-radius: 30px;
+    object-fit:fill; 
+  }

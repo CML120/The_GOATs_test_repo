@@ -7,7 +7,7 @@ import PlayGround from "./PlayGround";
 import Home from "./pages/Home";
 
 function GameScreen() {
-  const [activePage, setActivePage] = useState(" ");
+  // const [activePage, setActivePage] = useState(" ");
 
   const [activePage, setActivePage] = useState("");
 

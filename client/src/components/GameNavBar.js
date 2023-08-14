@@ -1,5 +1,6 @@
 import React from "react";
 import "./GameNavBar.css"; // Import your CSS file for styling
+import { Link } from "react-router-dom";
 
 function GameNavBar({ setActivePage }) {
   const handleNavClick = (page) => {
