@@ -7,7 +7,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import "./App.css";
-import "./components/practiceLetter.css"
+import "./components/practiceLetter.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
 import Navbar from "./components/Navbar";
@@ -17,10 +17,11 @@ import Signup from "./components/pages/Signup";
 import Profile from "./components/pages/Profile";
 import Home from "./components/pages/Home";
 import Footer from "./components/Footer";
+import PlayGround from "./components/PlayGround";
 
 const httpLink = createHttpLink({
-  uri: 'http://www.localhost:3001/graphql',
-  });
+  uri: "http://www.localhost:3001/graphql",
+});
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
   // uri: "/graphql",
@@ -45,10 +46,13 @@ export default function App() {
             path="/home"
             element={<Home />}
           /> */}
+          <Route path="/home" element={<Home />}/>
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/letters" element={<PracticeLetter />} />
                 <Route path="/spellinggame" element={<SpellingGame />} />
+                <Route path="/playground" element={<PlayGround />} />
               </Routes>
             </div>
           </div>

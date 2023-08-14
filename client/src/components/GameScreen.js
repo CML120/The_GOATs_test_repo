@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 function GameScreen() {
   const [activePage, setActivePage] = useState(" ");
 
+  const [activePage, setActivePage] = useState("");
 
   let currentPage;
   if (activePage === "Play Ground") {
@@ -19,7 +20,7 @@ function GameScreen() {
     currentPage = <phoneticsPractice />;
   } else if (activePage === "Spelling Game") {
     currentPage = <SpellingGame />;
-  } else {
+  } else if (activePage === "/") {
     currentPage = <Home />;
   }
 

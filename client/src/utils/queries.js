@@ -11,7 +11,7 @@ export const QUERY_USER = gql`
 `;
 
 export const GET_PROFILE = gql`
-    {
+    query {
         profile {
             _id
             level
