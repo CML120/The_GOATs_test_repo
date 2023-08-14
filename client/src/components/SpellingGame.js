@@ -12,23 +12,27 @@ const SpellingGame = () => {
   // State variables 
   const [spokenWord, setSpokenWord] = useState(''); // the letter(s) or word spoken by the player
   const [correctWord, setCorrectWord] = useState('');  //the selected word from the array
-  const [correctWordsCount, setCorrectWordsCount] = useState(0); // keeps count of how many words have been spelled correctly
+  const [correctWordsCount, setCorrectWordsCount] = useState(1); // keeps count of how many words have been spelled correctly
   const [currentLevel, setCurrentLevel] = useState(1); //keeps track of the current player level difficulty
   const [typedWord, setTypedWord] = useState(''); //the word typed by the player
   const [isNewWordNeeded, setIsNewWordNeeded] = useState(true); //keeps track of whether a new word needs to be generated
   const [message, setMessage] = useState(''); //the message to be displayed to the player in the message div on the page
-  const [gifUrl, setGifUrl] = useState(''); //the url of the gif to be displayed to the player in the message div on the page
-  const [altText, setAltText] = useState(''); //the alt text to be displayed to the player in the message div on the page
+  const [gifUrl, setGifUrl] = useState(''); //the url of the gif to be displayed to the player in the div on the page
+  const [altText, setAltText] = useState(''); //the alt text to be displayed to the player in the div on the page
 
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
   const wordsArray = [];
 
   // Function to get a random word from the wordsArray or database based on player level
   const getRandomWord = () => {
+    // Check if there's no loading, data exists, and there are words fetched from the database
     if (!loading && data && data.getWordsByDifficulty.length > 0) {
+      // Calculate a random index within the range of words available in the data
       const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
+      // Return the randomly selected word from the database
       return data.getWordsByDifficulty[randomIndex].word;
     } else {
+      //otherwise, grab a random word from the wordsArray
       const randomIndex = Math.floor(Math.random() * wordsArray.length);
       return wordsArray[randomIndex];
     }
@@ -41,6 +45,7 @@ const SpellingGame = () => {
   });
 
   // Gets a random word from the database that was previously determined by the player level
+  //useEffect hook runs when the dependencies are changed or updated, this first use effect sets the initial word
   useEffect(() => {
     if (!loading && data && data.getWordsByDifficulty.length > 0) {
       const randomIndex = Math.floor(Math.random() * data.getWordsByDifficulty.length);
@@ -50,7 +55,8 @@ const SpellingGame = () => {
       giphyWordImage(newCorrectWord); // Fetch and display the GIF image
     }
   }, [loading, data, currentLevel]);
-  
+
+  //this second use effect generates a new word based on the state of isNewWordNeeded
   useEffect(() => {
     // Generate a new correct word when needed
     if (isNewWordNeeded) {
@@ -63,28 +69,31 @@ const SpellingGame = () => {
 
   // Function to speak a word using the Web Speech API
   const speakWord = (word) => {
-    const speechSynthesis = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(word);
-    speechSynthesis.speak(utterance);
+    const speechSynthesis = window.speechSynthesis;  // Get the SpeechSynthesis object from the global window object
+    const utterance = new SpeechSynthesisUtterance(word); // Create a new SpeechSynthesisUtterance, passing in the selected word
+    speechSynthesis.speak(utterance); // Instruct the SpeechSynthesis to speak the utterance (selected word)
   };
 
   // Update spokenWord with each spoken letter
   const handleSpokenWord = (word) => {
-    const spokenLetter = word.toLowerCase();
-    setSpokenWord((prevSpokenWord) => prevSpokenWord + spokenLetter);
+    const spokenLetter = word.toLowerCase();  //convert the letter to lower case
+    setSpokenWord((prevSpokenWord) => prevSpokenWord + spokenLetter);  // Update the state with the spoken letter(s)
   };
 
   // Check the spelling of the spoken word
   const checkSpelling = () => {
-
+    // checks for spaces in the spokenWord variable, which determines if the word was spelled out by letters, or the word was spoken directly
     if (!spokenWord.includes(' ')) {
+      //if the word doesn't contain spaces, indicating it was spoken and not spelled, then clear the letters out and ask the player to spell the word
       setMessage('Please spell the word');
       clearSpokenLetters();
       return;
     }
+    //removes spaces from the spokenWord variable
     const checkSpokenWord = spokenWord.replace(/\s+/g, '').toLowerCase();
+    //removes spaces from the correctWord variable
     const checkSelectedWord = correctWord.replace(/\s+/g, '').toLowerCase();
-
+    //check if an attempt was made to spell the word
     if (!checkSpokenWord) {
       setMessage('You must spell the word first.');
     } else if (checkSpokenWord === checkSelectedWord.slice(0, checkSpokenWord.length)) {
@@ -96,14 +105,14 @@ const SpellingGame = () => {
 
   // Handle correct spelling and word progression
   const handleCorrectWord = () => {
-    setCorrectWordsCount((prevCount) => prevCount + 1);
+    setCorrectWordsCount((prevCount) => prevCount + 1); // increment the correct words count
 
-    if (correctWordsCount + 1 === 5) {
-      setCurrentLevel((prevLevel) => prevLevel + 1);
-      setCorrectWordsCount(0);
+    if (correctWordsCount + 1 === 5) { // If the player has spelled 5 correct words
+      setCurrentLevel((prevLevel) => prevLevel + 1); // Increment the current level
+      setCorrectWordsCount(0); // Reset the correct word count to 0
     }
     handleNewWord(); // Generate a new word for the game
-    
+
   };
 
   // Clear spoken letters
@@ -156,10 +165,11 @@ const SpellingGame = () => {
   };
 
   // handle fetching an image and title from giphy based on the selected word
+  //makes an asynchronous call to the giphy api to fetch the gif and title
   const giphyWordImage = async (word) => {
     try {
       const gifResponse = await giphyFetch.search(word);
-      
+      //check if the response contains
       if (gifResponse.data && gifResponse.data.length > 0) {
         const fetchedGifUrl = gifResponse.data[0].images.downsized_medium.url;
         const fetchedAltText = gifResponse.title;
@@ -170,7 +180,7 @@ const SpellingGame = () => {
       console.error("Error fetching GIF:", error);
     }
   };
-  
+
 
   return (
     <div className="spelling-game">
@@ -180,16 +190,16 @@ const SpellingGame = () => {
         <p className="message">{message}</p>
       </div>
       <p>
-  Level: {currentLevel <= 5 ? (
-    Array.from({ length: currentLevel }, (_, index) => (
-      <span key={index}>&#9733;</span>
-    ))
-  ) : (
-    "G.R.O.A.T."
-  )}
-</p>
-      <p>Correct Words: {correctWordsCount}</p>
-      <p>Selected Word: "{correctWord}"</p>
+        Level: {currentLevel <= 5 ? (
+          Array.from({ length: currentLevel }, (_, index) => (
+            <span key={index}>&#9733;</span>
+          ))
+        ) : (
+          "G.R.O.A.T."
+        )}
+      </p>
+      {/* <p>Correct Words: {correctWordsCount}</p>
+      <p>Selected Word: "{correctWord}"</p> */}
       <SpeechRecognitionComponent handleSpokenWord={handleSpokenWord} />
       <button onClick={() => speakWord(correctWord)}>Hear Word</button>
       <button onClick={clearSpokenLetters}>Clear Spoken Letters</button>
@@ -211,7 +221,6 @@ const SpellingGame = () => {
 
       <div className="gif-container">
         {gifUrl && <img src={gifUrl} alt={altText} />}
-   
       </div>
 
     </div>
