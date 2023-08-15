@@ -1,14 +1,36 @@
 import React from "react";
 import "./Contact.css";
+import { useMutation } from "@apollo/client";
+import { ADD_CONTACT } from "../utils/mutations";
 
 export default function Contact() {
+  const [submitContactForm, { error, data }] = useMutation(ADD_CONTACT);
+
+  const submitFormHandler = async (e) => {
+    e.preventDefault();
+    const form = e.target.value;
+    const input = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      message: form.message,
+    };
+    try {
+      const { data } = await submitContactForm({
+        variables: { input },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="contact-container">
       <div>
         <h4>Contact us</h4>
       </div>
       <div>
-        <form>
+        <form onSubmit={submitFormHandler}>
           <div>
             <label>First Name</label>
             <input type="text" name="firstname" placeholder="First Name" />
@@ -23,7 +45,7 @@ export default function Contact() {
             <textarea name="message" />
           </div>
         </form>
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </div>
     </div>
   );

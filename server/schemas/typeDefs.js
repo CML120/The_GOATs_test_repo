@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type Word {
@@ -19,7 +19,11 @@ const typeDefs = gql`
     email: String! # Add the email field here
     level: Int!
   }
-  
+
+  type ContactResponse {
+    success: Boolean!
+    message: String
+  }
 
   type Auth {
     token: ID!
@@ -35,11 +39,10 @@ const typeDefs = gql`
     getWordsByDifficulty(level: Int!): [Word]
     getUserByUsername(username: String!): User
     getProfile(criteria: ProfileCriteriaInput!): Profile
-    userById(id: ID!): User  # Combine the two Query definitions into one
+    userById(id: ID!): User # Combine the two Query definitions into one
   }
 
   input ProfileCriteriaInput {
-
     _id: ID!
   }
 
@@ -49,12 +52,21 @@ const typeDefs = gql`
     createUser(username: String!, email: String!, password: String!): Auth
     addProfile(profileFields: ProfileInput!): Profile
     updatePlayerLevel(userId: ID!, newLevel: Int!): User
-    userById(id: ID!): User 
+    userById(id: ID!): User
+
+    submitContactForm(contactFields: ContactFormInput!): ContactResponse
   }
-  
+
   input ProfileInput {
     _id: ID!
     username: String!
+  }
+
+  input ContactFormInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    message: String!
   }
 `;
 

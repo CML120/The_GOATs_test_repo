@@ -1,6 +1,7 @@
 const Word = require("../models/Word");
 const User = require("../models/User");
 const Profile = require("../models/Profile");
+const Contact = require("../models/Contact");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
@@ -29,7 +30,7 @@ const resolvers = {
     },
     getProfile: async (_, { userId }) => {
       try {
-        return await Profile.findOne({ user: userId }); // Assuming 'user' field in Profile refers to the User's ObjectId
+        return await Profile.findOne({ user: userId });
       } catch (error) {
         throw new Error("Error fetching profile");
       }
@@ -93,6 +94,30 @@ const resolvers = {
         return user;
       } catch (error) {
         throw new Error("Error fetching user by ID");
+      }
+    },
+    // try {
+    //   const newUser = new User({ username, email, password });
+    //   return await newUser.save();
+    // } catch (error) {
+    //   throw new Error('Error adding user');
+    // }
+
+    submitContactForm: async (_, { input }) => {
+      try {
+        const addContact = new Contact({
+          firstName: input.firstName,
+          lastName: input.lastName,
+          email: input.email,
+          message: input.message,
+        });
+        await addContact.save();
+      } catch (error) {
+        console.error("Error saving Contact message", error);
+        return {
+          success: false,
+          message: "Failed to submit. Please try again!",
+        };
       }
     },
   },
