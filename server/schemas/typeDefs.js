@@ -15,6 +15,7 @@ const typeDefs = gql`
 
   type Profile {
     _id: ID!
+    username: String!
   }
 
   type Auth {
@@ -34,6 +35,7 @@ const typeDefs = gql`
   }
 
   input ProfileCriteriaInput {
+
     _id: ID!
   }
 
@@ -48,6 +50,7 @@ const typeDefs = gql`
   
   input ProfileInput {
     _id: ID!
+    username: String!
   }
 `;
 
