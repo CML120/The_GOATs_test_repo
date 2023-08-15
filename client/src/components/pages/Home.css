@@ -1,0 +1,13 @@
+#welcome-page {
+    color: white;
+    font-size: 1.3em;
+    padding-top: 2em;
+}
+
+#welcome-page h1 {
+    font-size: 2em;
+}
+
+#welcome-page h2 {
+    font-size: 1.5em;
+}
