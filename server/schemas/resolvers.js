@@ -20,31 +20,23 @@ const resolvers = {
         throw new Error("Error fetching words");
       }
     },
-    getUserByUsername: async (parent, { username }) => {
+    getUserByUsername: async (_, { username }) => {
       try {
         return await User.findOne({ username });
       } catch (error) {
         throw new Error("Error fetching user by username");
       }
     },
-    // getProfile: async (_, { criteria }) => {
-    //   try {
-    //     return await Profile.findOne(criteria);
-    //   } catch (error) {
-    //     throw new Error("Error fetching profile");
-    //   }
-    // },
-
-    getProfile: async (_, { username }) => {
+    getProfile: async (_, { userId }) => {
       try {
-        return await Profile.findOne({username});
+        return await Profile.findOne({ user: userId }); // Assuming 'user' field in Profile refers to the User's ObjectId
       } catch (error) {
         throw new Error("Error fetching profile");
       }
     },
   },
   Mutation: {
-    login: async (parent, { email, password }) => {
+    login: async (_, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError("Incorrect login credentials!");
@@ -83,8 +75,8 @@ const resolvers = {
         throw new Error("Error adding word");
       }
     },
-    createUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+    createUser: async (_, { username, email, password }) => {
+      const user = await User.create({ username, email, password, level: 1 }); // Set the starting level to 1
       const token = signToken(user);
       return { token, user };
     },
@@ -96,21 +88,7 @@ const resolvers = {
         throw new Error("Error fetching user by ID");
       }
     },
-    // try {
-    //   const newUser = new User({ username, email, password });
-    //   return await newUser.save();
-    // } catch (error) {
-    //   throw new Error('Error adding user');
-    // }
   },
-  // addProfile: async (_, { profileFields }) => {
-  //   try {
-  //     const newProfile = new Profile(profileFields);
-  //     return await newProfile.save();
-  //   } catch (error) {
-  //     throw new Error('Error adding profile');
-  //   }
-  // },
 };
 
 module.exports = resolvers;

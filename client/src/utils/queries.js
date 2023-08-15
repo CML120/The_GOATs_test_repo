@@ -11,8 +11,8 @@ export const QUERY_USER = gql`
 `;
 
 export const GET_PROFILE = gql`
-  query GetProfile {
-    getProfile(criteria: { _id: "your-profile-id-here" }) {
+  query GetProfile($username: String!) { 
+    getProfile(username: $username) {
       _id
       level
       username

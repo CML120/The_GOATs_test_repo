@@ -16,7 +16,10 @@ const typeDefs = gql`
   type Profile {
     _id: ID!
     username: String!
+    email: String! # Add the email field here
+    level: Int!
   }
+  
 
   type Auth {
     token: ID!

@@ -194,7 +194,7 @@ const SpellingGame = () => {
       if (checkTypedWord === checkSelectedWord) {
         handleCorrectWord();
       } else {
-        setMessage('Incorrect spelling. Please try again.');
+        setMessage('Incorrect spelling');
         // Play the "wrong" audio
         const wrongAudio = new Audio(buzzAudio);
         wrongAudio.play();
@@ -270,7 +270,7 @@ const SpellingGame = () => {
           value={typedWord}
           onChange={handleTypedWordChange}
           onKeyUp={handleKeyboardSubmit}
-          placeholder="Type the spelled word"
+          placeholder="Type the word"
         />
                 {currentLevel < 6 && (
           <button type="button" className="game-button" onClick={handleCheckSpelling}>Check Spelling</button>

@@ -25,3 +25,21 @@
   width: 10rem;
   align-self: center;
 }
+
+.avatar-container {
+  position: fixed;
+  top: 1%; 
+  right: 2.5%; 
+  display: flex;
+  align-items: center;
+}
+
+.avatar-container.logged-in {
+  display: block;
+}
+
+
+.avatar-container.logged-in img {
+  width: 100%;
+  height: 100%; 
+}
