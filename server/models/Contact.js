@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { default: Contact } = require("../../client/src/components/contact");
 
 const contactSchema = new Schema({
   firstName: {
@@ -15,7 +14,7 @@ const contactSchema = new Schema({
   email: {
     type: String,
     required: true,
-    trim,
+    trim: true,
   },
   message: {
     type: String,

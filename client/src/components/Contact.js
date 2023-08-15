@@ -19,6 +19,11 @@ export default function Contact() {
       const { data } = await submitContactForm({
         variables: { input },
       });
+      if (data.submitContactForm.success) {
+        console.log("Form submitted successfully.");
+      } else {
+        console.error("Form submission failed.");
+      }
     } catch (error) {
       console.error(error);
     }
