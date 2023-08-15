@@ -18,11 +18,13 @@ export default function PracticeLetter() {
   const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
   const gf = new GiphyFetch(giphyApiKey);
 
+  // State variables
   const [userSound, setUserSound] = useState("");
   const [results, setResults] = useState([]);
   const [recognitionInstance, setRecognitionInstance] = useState(null);
   const [showLetters, setShowLetters] = useState(false);
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
+  const [showLetterButton, setShowLetterButton] = useState("Show Letter");
 
   const letters = [
     "A",
@@ -53,10 +55,11 @@ export default function PracticeLetter() {
     "Z",
   ];
 
+  // Component to display gifs
   const GiphysResponse = (props) => {
     const items = props.gifs.map((element) => {
       return (
-        <div key={element.id}>
+        <div className="gify-display div" key={element.id}>
           <img src={element.url} alt="gifs" />
         </div>
       );
@@ -65,29 +68,32 @@ export default function PracticeLetter() {
     return <div>{items}</div>;
   };
 
+  // Fetch and display gifs for a letter
   const giphyImage = async (letter) => {
     try {
-      const response = await gf.animate(letter, { limit: 2});
+      const response = await gf.animate(letter, { limit: 2 });
+
       setResults(response.data);
+      // console.log("Response", response.data);
     } catch (error) {
       console.error("Error fetching GIFs:", error);
       setResults([]);
     }
   };
-
-  const speakWord = (word) => {
+  // Speak a letter using the speech synthesis API
+  const speakWord = (letter) => {
     const speechSynthesis = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(word);
+    const utterance = new SpeechSynthesisUtterance(letter);
     speechSynthesis.speak(utterance);
   };
-
+  // Start sound recognition
   const startSoundRecognition = () => {
     if (recognitionInstance) {
       recognitionInstance.start();
     }
   };
 
-  //
+  //Set up speech recognition
   useEffect(() => {
     const recognition = new window.webkitSpeechRecognition();
     const grammar = new window.webkitSpeechGrammarList();
@@ -103,9 +109,14 @@ export default function PracticeLetter() {
     recognition.onresult = (event) => {
       const letter = event.results[0][0].transcript.toUpperCase();
       setUserSound(letter);
-      // if (letters.includes(letter)) {
+      console.log(letter);
 
-      // }
+      // ??????????????????????
+      if (letters.includes(letter.charAt(0))) {
+        soundGenerator(letter);
+      } else {
+        return <div>Try again</div>;
+      }
     };
 
     recognition.onerror = (event) => {
@@ -115,43 +126,51 @@ export default function PracticeLetter() {
     setRecognitionInstance(recognition);
 
     return () => {
-      recognition.stop();
+      if (recognitionInstance) {
+        recognition.stop();
+      }
     };
   }, []);
-
+  //Generate sound
   const soundGenerator = (letter) => {
     setUserSound(letter);
     giphyImage(letter); //not working???
     speakWord(letter);
     speakWord(letter);
   };
+  //Triggers the soundGenerator function
+  useEffect(
+    (letter) => {
+      if (userSound && letters.includes(letter)) {
+        soundGenerator(letter);
+        setUserSound(letter);
+      }
+    },
+    [userSound]
+  );
 
-  useEffect(() => {
-    if (userSound && letters.includes(userSound)) {
-      soundGenerator(userSound); //nosound
-      // giphyImage(letter); //not working???
-      // speakWord(letter);
-      // speakWord(letter);
-    }
-  }, [userSound]);
-
+  // Show next letter and associated gifs
   const showNextLetter = () => {
     if (currentLetterIndex < letters.length) {
       const letter = letters[currentLetterIndex];
-      // setUserSound(letter);
-      giphyImage(letter);
-      speakWord(letter);
-      speakWord(letter);
+      soundGenerator(letter);
       setShowLetters(true);
       setCurrentLetterIndex(currentLetterIndex + 1);
     }
   };
-
+  // Handle the show letter button click
   const showLetterHandler = () => {
-    setShowLetters(true);
-    showNextLetter();
+    if (showLetterButton === "Show Letter") {
+      showNextLetter();
+      setShowLetterButton("Stop Listening");
+    } else {
+      recognitionInstance.stop();
+      setShowLetterButton("Show Letter");
+      setShowLetters(false);
+      giphyImage("");
+    }
   };
-
+  // timer to move to the next letter
   useEffect(() => {
     if (showLetters) {
       const timeOut = setTimeout(() => {
@@ -186,9 +205,9 @@ export default function PracticeLetter() {
               Learn the letters, and you can also press each letter to listen to
               its sound
             </p>
-            {/* <div id="allLettersInOne-div">
+            <div id="allLettersInOne-div">
               <AllLettersInOne letters={letters} onClick={soundGenerator} />
-            </div> */}
+            </div>
           </TabPanel>
           <TabPanel className="each-tabPanel">
             <>
@@ -198,7 +217,7 @@ export default function PracticeLetter() {
                 Here you are going to learn the sound of all letters in just one
                 click{" "}
               </p>
-              <Button onClick={showLetterHandler}>Show Letter</Button>
+              <Button onClick={showLetterHandler}>{showLetterButton}</Button>
 
               <div>
                 {showLetters && (
@@ -236,11 +255,12 @@ export default function PracticeLetter() {
               </Button>
               <p>It sounds: {userSound}</p>
             </div>
+            <div>{results.length > 0 && <GiphysResponse gifs={results} />}</div>
           </TabPanel>
 
           <TabPanel className="each-tabPanel">
             <h5>Guess the Next Letter </h5>
-            <LetterGame />
+            <LetterGame letters={letters} />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -1,45 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-function LetterGame() {
+function LetterGame({ letters }) {
+  // State variable
   const [currentLetter, setCurrentLetter] = useState("");
   const [userGuess, setUserGuess] = useState();
   const [score, setScore] = useState(0);
   const [showCongratulation, setShowCongratulation] = useState(false);
 
-  const letters = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
-
+  // Generate random letter
   const randomLetter = () => {
-    const randomIndex = Math.floor(Math.random() * letters.length);
+    const randomIndex = Math.floor(Math.random() * letters.length) - 1;
     return letters[randomIndex];
   };
 
+  // Start the game
   const playGame = () => {
     const letter = randomLetter();
     setCurrentLetter(letter);
@@ -48,6 +22,7 @@ function LetterGame() {
     setShowCongratulation(false);
   };
 
+  // Check the user guess
   const checkUserGuess = () => {
     playGame();
     if (
@@ -66,12 +41,7 @@ function LetterGame() {
 
   return (
     <div>
-      <p>
-        It's fun! As you hit the play button at the bottom, a letter will pop
-        up. All you do is to write your answer in the white space and hit the
-        submit. Then, you will see the answer, the next letter as well as your
-        score.
-      </p>
+      <h3>Guess the Next Letter</h3>
       <p>Score: {score}</p>
 
       <div>
@@ -89,9 +59,9 @@ function LetterGame() {
         <button onClick={checkUserGuess}>Submit</button>
         {score >= 5 && showCongratulation && (
           <div>
-            <p>Congratulation! You have completed the game.</p>
+            <p>Congratulation! You have completed the game</p>
             <Link to="/spellinggame">Play Spelling Game</Link>
-            {/* <Link to="/letters">Learn More</Link>    may be to the play ground*/}
+            <Link to="/playground">Go to Play Ground</Link>
           </div>
         )}
 
@@ -124,14 +94,7 @@ function AllLettersInOne(props) {
   return (
     <div>
       {props.letters.map((letter, index) => (
-        <button
-          key={index}
-          onClick={() => props.onClick(index, letter)}
-          style={{
-            ...style.eachLetter,
-            transform: props.onClick(index) ? "scale(1.1)" : "scale(1)",
-          }}
-        >
+        <button key={index} onClick={() => props.onClick(letter)}>
           {letter}
         </button>
       ))}
