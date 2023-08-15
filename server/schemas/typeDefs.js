@@ -15,6 +15,7 @@ const typeDefs = gql`
 
   type Profile {
     _id: ID!
+    username: String!
   }
 
   type Auth {
@@ -25,14 +26,17 @@ const typeDefs = gql`
   type Query {
     users: [User]
     user(username: String!): User
+    getUserById(id: ID!): User 
     getWord(id: ID!): Word
     getWordsByDifficulty(level: Int!): [Word]
     getUserByUsername(username: String!): User
     getProfile(criteria: ProfileCriteriaInput!): Profile
+    userById(id: ID!): User  # Combine the two Query definitions into one
   }
 
   input ProfileCriteriaInput {
-   _id: ID!
+
+    _id: ID!
   }
 
   type Mutation {
@@ -40,16 +44,14 @@ const typeDefs = gql`
     addWord(word: String!, level: Int!, meaning: String): Word
     createUser(username: String!, email: String!, password: String!): Auth
     addProfile(profileFields: ProfileInput!): Profile
-  }
-
-  input ProfileInput {
-    _id: ID!
-  }
-
-  type Mutation {
     updatePlayerLevel(userId: ID!, newLevel: Int!): User
+    userById(id: ID!): User 
   }
   
+  input ProfileInput {
+    _id: ID!
+    username: String!
+  }
 `;
 
 module.exports = typeDefs;

@@ -88,6 +88,14 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    userById: async (_, { id }) => {
+      try {
+        const user = await User.findById(id);
+        return user;
+      } catch (error) {
+        throw new Error("Error fetching user by ID");
+      }
+    },
     // try {
     //   const newUser = new User({ username, email, password });
     //   return await newUser.save();

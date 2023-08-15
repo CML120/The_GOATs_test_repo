@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
+import './Footer.css'
 
 const style = {
   upperStyle: {
@@ -25,7 +26,7 @@ const style = {
 
 export default function Footer() {
   return (
-    <footer style={style.upperStyle}>
+    <footer id="footer" style={style.upperStyle}>
       <div>
         <Flex>
           <Box>

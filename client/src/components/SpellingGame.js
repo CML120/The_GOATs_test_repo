@@ -9,11 +9,6 @@ import './SpellingGame.css';
 //importing dependencies for fetching words from the database
 import { useQuery } from '@apollo/client';
 import { FETCH_WORDS_BY_DIFFICULTY } from '../utils/queries';
-// import { GiphyFetch } from "@giphy/js-fetch-api";
-// const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
-
-
-
 
 const SpellingGame = () => {
   // State variables 
@@ -28,10 +23,16 @@ const SpellingGame = () => {
   const [altText, setAltText] = useState(''); //the alt text to be displayed to the player in the div on the page
   const [imageUrl, setImageUrl] = useState(null); // Add imageUrl to state
   const [messageVisible, setMessageVisible] = useState(false);
+  const [showButtons, setShowButtons] = useState(true);
 
+  const handleResetLevel = () => {
+    setCurrentLevel(1); // Reset the level to 1 or another starting level
+    setShowButtons(true); // Show buttons again after resetting level
+  };
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
   const wordsArray = [];
 
+  // Imports images based on the selected word from the database
   const importWordImage = async (word) => {
     try {
       const wordImage = await import(`../assets/${word}.jpg`);
@@ -41,7 +42,6 @@ const SpellingGame = () => {
       return null;
     }
   };
-
 
   // Function to get a random word from the wordsArray or database based on player level
   const getRandomWord = () => {
@@ -57,7 +57,6 @@ const SpellingGame = () => {
       return wordsArray[randomIndex];
     }
   };
-
 
   // fetch words based on the player's current level
   const { loading, error, data } = useQuery(FETCH_WORDS_BY_DIFFICULTY, {
@@ -98,7 +97,6 @@ const SpellingGame = () => {
       });
     }
   }, [isNewWordNeeded]);
-
 
   // UseEffect to control the message display duration
   useEffect(() => {
@@ -221,55 +219,44 @@ const SpellingGame = () => {
     setCorrectWord(getRandomWord());
   };
 
-  // handle fetching an image and title from giphy based on the selected word
-  //makes an asynchronous call to the giphy api to fetch the gif and title
-  // const giphyWordImage = async (word) => {
-  //   try {
-  //     const gifResponse = await giphyFetch.search(word);
-  //     //check if the response contains
-  //     if (gifResponse.data && gifResponse.data.length > 0) {
-  //       const fetchedGifUrl = gifResponse.data[0].images.downsized_medium.url;
-  //       const fetchedAltText = gifResponse.title;
-  //       setGifUrl(fetchedGifUrl);
-  //       setAltText(fetchedAltText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching GIF:", error);
-  //   }
-  // };
 
-
+  //Renders the Spelling Game with the game heading, h2 note regarding microphone settings, and the various game buttons
+  //once the player reaches max level, the reset level button will be displayed, and the spell check buttons are hidden
   return (
     <div className="spelling-game">
       <h1>Spelling Game</h1>
       <h2>Please have your microphone plugged in and ready!</h2>
-      
+
       <div className="message-container">
-      {message && (
-        <Bounce>
-          <p className="message">{message}</p>
-        </Bounce>
-      )}
-    </div>
-      
+        {message && (
+          <Bounce>
+            <p className="message">{message}</p>
+          </Bounce>
+        )}
+      </div>
+
       <p>
         Level: {currentLevel <= 5 ? (
           Array.from({ length: currentLevel }, (_, index) => (
             <span key={index}>&#9733;</span>
           ))
         ) : (
-          "G.R.O.A.T."
+          <>
+            G.R.O.A.T. <button className="game-button" onClick={handleResetLevel}>Reset Level</button>
+          </>
         )}
       </p>
       {/* <p>Correct Words: {correctWordsCount}</p>
       <p>Selected Word: "{correctWord}"</p> */}
       <SpeechRecognitionComponent handleSpokenWord={handleSpokenWord} />
-      <button type="button" onClick={handleNewWord}>New Word</button>
+      <button type="button" className="game-button" onClick={handleNewWord}>New Word</button>
 
       <div className="button-container">
-        <button onClick={() => speakWord(correctWord)}>Hear Word</button>
-        <button onClick={clearSpokenLetters}>Clear Spoken Letters</button>
-        <button onClick={checkSpelling}>Check Spelling</button>
+        <button className="game-button" onClick={() => speakWord(correctWord)}>Hear Word</button>
+        <button className="game-button" onClick={clearSpokenLetters}>Clear Spoken Letters</button>
+        {currentLevel < 6 && (
+          <button className="game-button" onClick={checkSpelling}>Check Spelling</button>
+        )}
       </div>
 
       <div className="spoken-word-container">
@@ -285,10 +272,12 @@ const SpellingGame = () => {
           onKeyUp={handleKeyboardSubmit}
           placeholder="Type the spelled word"
         />
-        <button type="button" onClick={handleCheckSpelling}>Check Spelling</button>
+                {currentLevel < 6 && (
+          <button type="button" className="game-button" onClick={handleCheckSpelling}>Check Spelling</button>
+        )}
       </div>
 
-      <div className="gif-container">
+      <div className="img-container">
         {imageUrl && <img src={imageUrl} alt={altText} className="responsive-image" />}
       </div>
     </div>
