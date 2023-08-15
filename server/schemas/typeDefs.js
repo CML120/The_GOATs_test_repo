@@ -15,6 +15,7 @@ const typeDefs = gql`
 
   type Profile {
     _id: ID!
+    username: String!
   }
 
   type Auth {
@@ -33,6 +34,7 @@ const typeDefs = gql`
 
   input ProfileCriteriaInput {
    _id: ID!
+   username: String!
   }
 
   type Mutation {
@@ -44,6 +46,7 @@ const typeDefs = gql`
 
   input ProfileInput {
     _id: ID!
+    username: String!
   }
 
   type Mutation {
