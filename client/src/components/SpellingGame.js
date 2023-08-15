@@ -32,6 +32,7 @@ const SpellingGame = () => {
   // const wordsArray = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon'];
   const wordsArray = [];
 
+  // Imports images based on the selected word from the database
   const importWordImage = async (word) => {
     try {
       const wordImage = await import(`../assets/${word}.jpg`);
@@ -288,7 +289,7 @@ const SpellingGame = () => {
         <button type="button" onClick={handleCheckSpelling}>Check Spelling</button>
       </div>
 
-      <div className="gif-container">
+      <div className="img-container">
         {imageUrl && <img src={imageUrl} alt={altText} className="responsive-image" />}
       </div>
     </div>

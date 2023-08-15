@@ -52,7 +52,7 @@
     color: red !important; 
   }
 
-  .gif-container {
+  .img-container {
     position: fixed;
     top: 25%; /* Adjust the distance from the top as needed */
     right: 5%; /* Adjust the distance from the right as needed */
