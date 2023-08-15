@@ -34,6 +34,13 @@ const resolvers = {
         throw new Error("Error fetching profile");
       }
     },
+    userByEmail: async (_, { email }) => {
+      try {
+        return await User.findOne({ email });
+      } catch (error) {
+        throw new Error("Error fetching user by email");
+      }
+    },
   },
   Mutation: {
     login: async (_, { email, password }) => {

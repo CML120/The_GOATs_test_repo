@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
+import { QUERY_USER_BY_EMAIL } from '../../utils/queries';
 import './Login.css';
 
 import {
@@ -21,6 +22,13 @@ import Auth from '../../utils/auth';
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
+  
+
+  // Use the useQuery hook to fetch user details
+  const { data: userData } = useQuery(QUERY_USER_BY_EMAIL, {
+    variables: { email: formState.email },
+    skip: !data?.login?.token, // Skip the query if token is not available
+  });
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -41,7 +49,19 @@ const Login = (props) => {
         variables: { ...formState },
       });
 
-      Auth.login(data.login.token);
+      const authToken = data?.login?.token;
+      if (authToken) {
+        Auth.login(authToken);
+        
+        // Fetch user details using the token
+        if (userData?.userByEmail) {
+          const { _id, username, email, level } = userData.userByEmail;
+          console.log('User Details:', { _id, username, email, level });
+          // Save user details to local storage
+          localStorage.setItem('userInfo', JSON.stringify({ _id, username, email, level }));
+          console.log('LocalStorage:', localStorage.getItem('userInfo'));
+        }
+      }
     } catch (e) {
       console.error(e);
     }
@@ -57,13 +77,13 @@ const Login = (props) => {
     <main className="" id='loginForm'>
       <Flex>
         <Center width={"100vw"}>
-            <Container height={"25vh"}>
+          <Container height={"25vh"}>
             <VStack spacing='1vh'>
               <Box>
                 Login
               </Box>
-              </VStack>
-              <VStack spacing='1vh'>
+            </VStack>
+            <VStack spacing='1vh'>
               <Box>
                 {data ? (
                   <Box>
@@ -96,7 +116,7 @@ const Login = (props) => {
                     </Box>
                     <Spacer />
                     <Box>
-                      <Button size='lg' borderRadius='lg' bg='black' color='white' 
+                      <Button size='lg' borderRadius='lg' bg='black' color='white'
                         className=""
                         style={{ cursor: 'pointer' }}
                         type="submit"
@@ -113,9 +133,9 @@ const Login = (props) => {
                     {error.message}
                   </div>
                 )}
-                </Box>
-              </VStack>
-            </Container>
+              </Box>
+            </VStack>
+          </Container>
         </Center>
       </Flex>
     </main>

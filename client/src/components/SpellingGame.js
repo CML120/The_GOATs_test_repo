@@ -1,14 +1,17 @@
+//Import dependencies
+import React, { useState, useEffect } from 'react';
+
+import { useQuery, useMu } from '@apollo/client';
+import { FETCH_WORDS_BY_DIFFICULTY, UPDATE_PLAYER_LEVEL } from '../utils/queries';
 //Importing sounds
 import buzzAudio from '../assets/buzz.wav';
 import dingAudio from '../assets/ding.mp3';
 import { Bounce } from "react-awesome-reveal"; //Bounce animation from react-awesome-reveal
-//Import dependencies
-import React, { useState, useEffect } from 'react';
+
 import SpeechRecognitionComponent from './SpeechRecognitionComponent'; // Import the SpeechRecognitionComponent
 import './SpellingGame.css';
 //importing dependencies for fetching words from the database
-import { useQuery } from '@apollo/client';
-import { FETCH_WORDS_BY_DIFFICULTY } from '../utils/queries';
+
 
 const SpellingGame = () => {
   // State variables 

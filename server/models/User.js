@@ -18,7 +18,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: 5,
-  }
+  },
+    level: {
+    type: Number,
+    default: 1,
+  },
 },
 {
   toJSON: {

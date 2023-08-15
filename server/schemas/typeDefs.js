@@ -29,6 +29,7 @@ const typeDefs = gql`
   type Query {
     users: [User]
     user(username: String!): User
+    userByEmail(email: String!): User 
     getUserById(id: ID!): User 
     getWord(id: ID!): Word
     getWordsByDifficulty(level: Int!): [Word]

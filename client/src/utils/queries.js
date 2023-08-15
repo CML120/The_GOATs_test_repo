@@ -48,3 +48,22 @@ export const UPDATE_PLAYER_LEVEL = gql`
     }
   }
 `;
+
+export const FETCH_PLAYER_LEVEL = gql`
+  query FetchPlayerLevel($userId: ID!) {
+    userById(id: $userId) {
+      _id
+      level
+    }
+  }
+`;
+
+export const QUERY_USER_BY_EMAIL = gql`
+  query QueryUserByEmail($email: String!) {
+    userByEmail(email: $email) {
+      _id
+      username
+      email
+    }
+  }
+`;
