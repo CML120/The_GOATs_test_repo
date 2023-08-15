@@ -23,7 +23,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 99%vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,9 +46,21 @@
 }
 .mainContainer {
   min-height: 50rem;
-  background: url("/public/images/main-bgrd.jpg");
-  background-size: 100% 100%;
+  background: url("/public/images/main-bgrd.png");
+  background-size: 95% 99%; /* set back to 100% 100% after we resolve the background color and have it match the header/footer */
+  background-position: center center; /* Center the background image horizontally and vertically */
+  background-repeat: no-repeat; 
+  background-color:  #1fc3fa;
+  border-radius: 25%px; 
 }
+
 .contentOnly {
   margin: 0 5rem;
 }
+
+
+
+/* @media screen and (max-width: 650px) {
+
+  }
+} */

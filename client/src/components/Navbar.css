@@ -1,8 +1,12 @@
 /* Navbar.css */
+*{
+  font-size: 102%;
+}
 #navbar {
   background: linear-gradient(.40turn, rgb(247, 245, 245), 10%, #1fc3fa);
   color: white;
-  padding: 2%;
+  padding: 0.25%;
+  position: sticky;
 }
 
 .row {
@@ -38,8 +42,19 @@
   display: block;
 }
 
-
 .avatar-container.logged-in img {
   width: 100%;
   height: 100%; 
+}
+
+@media (max-width: 1068px) {
+  *{
+    font-size: 97%;
+  }
+}
+
+@media (max-width: 768px) {
+  *{
+    font-size: 96%;
+  }
 }

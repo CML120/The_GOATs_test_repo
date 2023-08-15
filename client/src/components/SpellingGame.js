@@ -238,7 +238,7 @@ const SpellingGame = () => {
         )}
       </div>
 
-      <p>
+      <p className="level">
         Level: {currentLevel <= 5 ? (
           Array.from({ length: currentLevel }, (_, index) => (
             <span key={index}>&#9733;</span>
