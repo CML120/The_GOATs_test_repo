@@ -47,14 +47,14 @@ function PlayGround() {
 
     return (
         <div className="playground-container">
-            <div className="button-container">
+            <div className="button-container-PG">
                 <button className="start-stop-button" onClick={() => setListening(!listening)}>
                     {listening ? "Click Me to Stop Listening!" : "Click Me to Start Listening!"}
                 </button>
             </div>
-            <p className="spoken-word">What you said: {spokenWord}</p>
+            <p className="spoken-word-PG">What you said: {spokenWord}</p>
             {gifUrl && (
-                <div className="gif-container">
+                <div className="gif-container-PG">
                     <img src={gifUrl} alt="Giphy" className="gif-image" />
                 </div>
             )}

@@ -4,16 +4,17 @@ import './WordGuessGame.css';
 function WordGuessGame() {
     const [chosenWord, setChosenWord] = useState("");
     const [blanksLetters, setBlanksLetters] = useState([]);
+    const [hintsLetters, setHintsLetters] = useState([]);
     const [isWin, setIsWin] = useState(false);
     const [isLost, setIsLost] = useState(false);
     const [timer, setTimer] = useState(null);
-    const [timerCount, setTimerCount] = useState(20);
+    const [timerCount, setTimerCount] = useState(15);
     const [winCounter, setWinCounter] = useState(0);
     const [loseCounter, setLoseCounter] = useState(0);
     const [imageUrl, setImageUrl] = useState("");
     const [gameStarted, setGameStarted] = useState(false);
 
-    const words = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon', 'pineapple', 'blueberry', 'cherry'];
+    const words = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon', 'pineapple', 'blueberry', 'cherry','zebra' , 'cow', 'cat', 'dog', 'horse', 'spongebob', 'bear', 'woody', 'buzz', 'football', 'baseball', 'basketball' ];
 
     const checkWin = useCallback((updatedBlanks) => {
         if (chosenWord === updatedBlanks.join("")) {
@@ -23,7 +24,7 @@ function WordGuessGame() {
 
     const checkLetters = useCallback((letter) => {
         const updatedBlanks = blanksLetters.map((blank, index) =>
-            chosenWord[index] === letter || chosenWord[index] === ' ' ? chosenWord[index] : blank
+            chosenWord[index] === letter ? chosenWord[index] : blank
         );
         setBlanksLetters(updatedBlanks);
         checkWin(updatedBlanks);
@@ -59,16 +60,17 @@ function WordGuessGame() {
         };
     }, [timerCount, isWin, isLost, handleKeyDown]);
 
-useEffect(() => {
-    if (chosenWord && gameStarted) {
-        setImageUrl(`/images/${chosenWord}.gif`);
-    }
-}, [chosenWord, gameStarted]);
+    useEffect(() => {
+        if (chosenWord && gameStarted) {
+            setImageUrl(`/images/${chosenWord}.gif`);
+        }
+    }, [chosenWord, gameStarted]);
 
     const startGame = () => {
         setIsWin(false);
         setIsLost(false);
-        setTimerCount(20);
+        setTimerCount(15);
+        clearInterval(timer);
         startTimer();
         renderBlanks();
         setGameStarted(true);
@@ -84,13 +86,11 @@ useEffect(() => {
         const randomIndex = Math.floor(Math.random() * words.length);
         const wordToGuess = words[randomIndex];
 
-        const blanksAndLetters = wordToGuess.split('').map((char) => (char === ' ' ? '_' : char));
-        const shuffledLetters = shuffleArray(blanksAndLetters.filter((char) => char !== '_'));
-
-        const blanksWithShuffledLetters = blanksAndLetters.map((char) => (char === '_' ? '_' : shuffledLetters.pop()));
-
         setChosenWord(wordToGuess);
-        setBlanksLetters(blanksWithShuffledLetters);
+
+        const shuffledWord = shuffleArray(wordToGuess.split(''));
+        setBlanksLetters(Array.from({ length: wordToGuess.length }, () => '_'));
+        setHintsLetters(shuffledWord);
     };
 
     const winGame = () => {
@@ -114,25 +114,28 @@ useEffect(() => {
     return (
         <div className="word-guess-game">
             {gameStarted && <img src={imageUrl} alt="Word Gif" className="word-gif" />}
-            <p className="guess-word">Guess the fruit! {blanksLetters.join(" ")}</p>
+            <p className="guess-word">
+                Guess the Gif! {blanksLetters.map((letter, index) => (
+                    <span key={index} className="blank-letter">
+                        {letter}
+                    </span>
+                ))}
+            </p>
+            <p className="hints">
+                {hintsLetters.map((letter, index) => (
+                    <span key={index} className="hint-letter">
+                        {letter}
+                    </span>
+                ))}
+            </p>
             <p className="timer">Time left: {timerCount}</p>
-            {!isLost && !isWin && (
-                <button onClick={startGame} className="start-button" disabled={timerCount === 0}>
-                    {timerCount === 20 ? "Start Game" : "Play Again"}
+            {(!gameStarted || isLost || isWin) && (
+                <button onClick={startGame} className="start-button-wgg">
+                    {isWin ? "Play Again" : "Start Game"}
                 </button>
             )}
             {isLost && <p className="result-message">You Lost! Try Again?</p>}
             {isWin && <p className="result-message">You Won! Play Again?</p>}
-            {isLost && (
-                <button onClick={startGame} className="start-button">
-                    Try Again
-                </button>
-            )}
-            {isWin && (
-                <button onClick={startGame} className="start-button">
-                    Play Again
-                </button>
-            )}
             <div className="win-loss-container">
                 <p className="win-loss">Wins: {winCounter}</p>
                 <p className="win-loss">Losses: {loseCounter}</p>
