@@ -44,9 +44,9 @@ export default function Footer() {
           </Box>
           <Spacer />
           <Box>
-            <a>
+            <Link to="/contact">
               <h4>Buy us a cup of coffee</h4>
-            </a>
+            </Link>
           </Box>
           <Spacer />
           <Box marginRight="1%">

@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { CustomButtonStyle } from "./chakraStyle";
+import { Button, Flex, FormControl, chakra } from "@chakra-ui/react";
+const CustomButton = chakra(Button, CustomButtonStyle);
+
 function LetterGame({ letters }) {
   // State variable
   const [currentLetter, setCurrentLetter] = useState("");
@@ -42,66 +46,66 @@ function LetterGame({ letters }) {
   return (
     <div>
       <h3>Guess the Next Letter</h3>
-      <p>Score: {score}</p>
 
-      <div>
-        {/* audio?? prop drill the speech recognition and giphyImage */}
-        <p>What letter comes after: </p>
-        <h4>{currentLetter}</h4>
-        <input
-          className="letter-input"
-          type="text"
-          name="userInput"
-          value={userGuess}
-          onChange={(e) => setUserGuess(e.target.value)}
-          placeholder="write here"
-        />
-        <button onClick={checkUserGuess}>Submit</button>
-        {score >= 5 && showCongratulation && (
-          <div>
-            <p>Congratulation! You have completed the game</p>
-            <Link to="/spellinggame">Play Spelling Game</Link>
-            <Link to="/playground">Go to Play Ground</Link>
-          </div>
-        )}
+      <Flex justifyContent={"center"}>
+        <div>
+          <p>What letter comes after: </p>
+          <h4>{currentLetter}</h4>
 
-        {userGuess && (
-          <p>
-            {userGuess.toUpperCase() ===
-            letters[letters.indexOf(currentLetter) + 1]
-              ? "Correct!"
-              : `Oops! The correct answer is ${
-                  letters[letters.indexOf(currentLetter) + 1]
-                }`}
-          </p>
-        )}
-      </div>
+          <input
+            className="letter-input"
+            type="text"
+            name="userInput"
+            value={userGuess}
+            onChange={(e) => setUserGuess(e.target.value)}
+            placeholder="write here"
+          />
 
-      <button onClick={playGame}>Play</button>
+          <CustomButton onClick={checkUserGuess}>Submit</CustomButton>
+          {score >= 5 && showCongratulation && (
+            <div>
+              <p>Congratulation! You have completed the game</p>
+              <Link to="/spellinggame">Play Spelling Game</Link>
+              <Link to="/playground">Go to Play Ground</Link>
+            </div>
+          )}
+
+          {userGuess && (
+            <p>
+              {userGuess.toUpperCase() ===
+              letters[letters.indexOf(currentLetter) + 1]
+                ? "Correct!"
+                : `Oops! The correct answer is ${
+                    letters[letters.indexOf(currentLetter) + 1]
+                  }`}
+            </p>
+          )}
+        </div>
+      </Flex>
+
+      <CustomButton onClick={playGame}>Play</CustomButton>
     </div>
   );
 }
 
-const style = {
-  eachLetter: {
-    fontSize: "4rem",
-    padding: "1rem",
-    transform: `scale(1.1)`,
-    transition: "transition 0.2s ease in-out",
-  },
-};
 function AllLettersInOne(props) {
+  const CustomButton = chakra(Button, CustomButtonStyle);
   return (
-    <div>
-      {props.letters.map((letter, index) => (
-        <button key={index} onClick={() => props.onClick(letter)}>
-          {letter}
-        </button>
-      ))}
-    </div>
+    <Flex justifyContent={"center"}>
+      <div>
+        {props.letters.map((letter, index) => (
+          <CustomButton
+            className="start-stop-button"
+            key={index}
+            onClick={() => props.onClick(letter)}
+          >
+            {letter}
+          </CustomButton>
+        ))}
+      </div>
+    </Flex>
   );
 }
 
-// module.exports = { LetterGame, AllLettersInOne };
 export default LetterGame;
 export { AllLettersInOne };

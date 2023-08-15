@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { GiphyFetch } from "@giphy/js-fetch-api";
+import { CustomButtonStyle } from "./chakraStyle";
 import {
   Button,
+  Box,
   Tabs,
   TabList,
   Tab,
   TabPanels,
   TabPanel,
+  chakra,
+  Flex,
 } from "@chakra-ui/react";
 import LetterGame, { AllLettersInOne } from "./LetterGame";
 
@@ -14,6 +18,7 @@ import LetterGame, { AllLettersInOne } from "./LetterGame";
 // import SpellingGame from "./SpellingGame";
 
 // https://balsamiq.cloud/s4ss2ue/pze1uia/r2278
+const CustomButton = chakra(Button, CustomButtonStyle);
 export default function PracticeLetter() {
   const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
   const gf = new GiphyFetch(giphyApiKey);
@@ -74,7 +79,6 @@ export default function PracticeLetter() {
       const response = await gf.animate(letter, { limit: 2 });
 
       setResults(response.data);
-      // console.log("Response", response.data);
     } catch (error) {
       console.error("Error fetching GIFs:", error);
       setResults([]);
@@ -109,7 +113,6 @@ export default function PracticeLetter() {
     recognition.onresult = (event) => {
       const letter = event.results[0][0].transcript.toUpperCase();
       setUserSound(letter);
-      console.log(letter);
 
       // ??????????????????????
       if (letters.includes(letter.charAt(0))) {
@@ -184,86 +187,134 @@ export default function PracticeLetter() {
   }, [showLetters, currentLetterIndex]);
 
   return (
-    <div className="box-wrapper">
+    <Box width="100%" p={{ base: 2, md: 4 }} pr={{ base: 0, md: 0 }}>
       <Tabs className="tab-container">
-        <TabList style={{ flexWrap: "wrap", justifyContent: "center" }}>
+        <TabList
+          style={{ flexWrap: "wrap", justifyContent: "center" }}
+          mb={{ base: 4, md: 6 }}
+          maxW={{ base: "100%", md: "90%" }}
+          ml={{ base: 0, md: 8 }}
+        >
           <Tab>Learn All Letters</Tab>
           <Tab>Learn the Sound</Tab>
           <Tab>Practice the Sound</Tab>
-
           <Tab>Test Yourselves</Tab>
         </TabList>
 
-        <TabPanels style={{ flexWrap: "wrap", justifyContent: "center" }}>
-          <TabPanel className="each-tabPanel">
-            <h5>Welcome!</h5>
-            <p>
-              Your first step begins here to be a G.R.O.A.T GOAT (Greatest
-              Reader Of All Time)
-            </p>
-            <p>
-              Learn the letters, and you can also press each letter to listen to
-              its sound
-            </p>
-            <div id="allLettersInOne-div">
-              <AllLettersInOne letters={letters} onClick={soundGenerator} />
-            </div>
+        <TabPanels>
+          <TabPanel>
+            <Box
+              width="80%"
+              textAlign="left"
+              pl={{ base: 1, md: 6 }}
+              mx={{ base: 0, md: 2 }}
+            >
+              <h5>Welcome!</h5>
+              <p>
+                Your first step begins here to be a G.R.O.A.T GOAT (Greatest
+                Reader Of All Time)
+              </p>
+              <p>
+                Learn the letters, and you can also press each letter to listen
+                to its sound
+              </p>
+              <Flex justifyContent={"center"}>
+                <div>
+                  <AllLettersInOne letters={letters} onClick={soundGenerator} />
+                </div>
+              </Flex>
+            </Box>
           </TabPanel>
+
           <TabPanel className="each-tabPanel">
-            <>
+            <Box
+              width="80%"
+              textAlign="left"
+              pl={{ base: 1, md: 6 }}
+              mx={{ base: 0, md: 2 }}
+            >
               <h5>Welcome! </h5>
               <p>
                 {" "}
                 Here you are going to learn the sound of all letters in just one
                 click{" "}
               </p>
-              <Button onClick={showLetterHandler}>{showLetterButton}</Button>
-
-              <div>
-                {showLetters && (
-                  <div>
-                    <div key={letters[currentLetterIndex - 1]}>
-                      {letters[currentLetterIndex - 1]}
-                      <div>
-                        {results.length > 0 && (
-                          <GiphysResponse gifs={results} />
-                        )}
+              <Flex justifyContent={"center"}>
+                <CustomButton
+                  className="start-stop-button"
+                  onClick={showLetterHandler}
+                >
+                  {showLetterButton}
+                </CustomButton>
+              </Flex>
+              <Flex justifyContent={"center"}>
+                <div>
+                  {showLetters && (
+                    <div>
+                      <div key={letters[currentLetterIndex - 1]}>
+                        {letters[currentLetterIndex - 1]}
+                        <div>
+                          {results.length > 0 && (
+                            <GiphysResponse gifs={results} />
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+              </Flex>
+            </Box>
+          </TabPanel>
+
+          <TabPanel className="each-tabPanel">
+            <Box
+              width="80%"
+              textAlign="left"
+              pl={{ base: 1, md: 6 }}
+              mx={{ base: 0, md: 2 }}
+            >
+              <div>
+                <h2>Voice Command Practice</h2>
+                <p>
+                  Get closer to the microphone, click the start button, and
+                  speak out the letter randomly.
+                </p>
+                <p>You will hear back sound...</p>
               </div>
-            </>
+
+              <Flex justifyContent={"center"}>
+                <CustomButton
+                  className="start-stop-button"
+                  colorScheme="teal"
+                  size="lg"
+                  onClick={startSoundRecognition}
+                >
+                  {" "}
+                  Start Practice
+                </CustomButton>
+              </Flex>
+              <Flex justifyContent={"center"}>
+                <div>
+                  {results.length > 0 && <GiphysResponse gifs={results} />}
+                </div>
+              </Flex>
+            </Box>
           </TabPanel>
 
           <TabPanel className="each-tabPanel">
-            <div className="speech-recognition-practice">
-              <h2>Voice Command Practice</h2>
-              <p>
-                Get closer to the microphone, click the start button, and speak
-                out the letter randomly.
-              </p>
-              <p>You will heer back your sound...</p>
-
-              <Button
-                colorScheme="teal"
-                size="lg"
-                onClick={startSoundRecognition}
-              >
-                {" "}
-                Start Practice
-              </Button>
-              <p>It sounds: {userSound}</p>
-            </div>
-            <div>{results.length > 0 && <GiphysResponse gifs={results} />}</div>
-          </TabPanel>
-
-          <TabPanel className="each-tabPanel">
-            <h5>Guess the Next Letter </h5>
-            <LetterGame letters={letters} />
+            <Box
+              width="80%"
+              textAlign="left"
+              pl={{ base: 1, md: 6 }}
+              mx={{ base: 0, md: 2 }}
+            >
+              <Flex justifyContent={"center"}>
+                <LetterGame letters={letters} />
+              </Flex>
+            </Box>
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </div>
+    </Box>
   );
 }

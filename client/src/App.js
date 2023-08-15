@@ -7,7 +7,6 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import "./App.css";
-import "./components/practiceLetter.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
 import Navbar from "./components/Navbar";
@@ -18,6 +17,8 @@ import Profile from "./components/pages/Profile";
 import Home from "./components/pages/Home";
 import Footer from "./components/Footer";
 import PlayGround from "./components/PlayGround";
+import { Box } from "@chakra-ui/react";
+import Contact from "./components/Contact";
 
 const httpLink = createHttpLink({
   uri: "http://www.localhost:3001/graphql",
@@ -40,21 +41,23 @@ export default function App() {
             <div>
               <GameScreen />
             </div>
-            <div className="contentOnly">
+            <Box
+              p={1}
+              width="100%"
+              mx={{ base: 0, md: 4 }}
+              pr={{ base: 0, md: 0 }}
+            >
               <Routes>
-                {/* <Route
-            path="/home"
-            element={<Home />}
-          /> */}
-          <Route path="/home" element={<Home />}/>
+                <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/letters" element={<PracticeLetter />} />
                 <Route path="/spellinggame" element={<SpellingGame />} />
                 <Route path="/playground" element={<PlayGround />} />
+                <Route path="/contact" element={<Contact />} />
               </Routes>
-            </div>
+            </Box>
           </div>
 
           <Footer />
