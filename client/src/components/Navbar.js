@@ -3,6 +3,8 @@ import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { Breadcrumb, BreadcrumbItem, Tooltip } from "@chakra-ui/react";
 
+import Auth from '../utils/auth';
+
 const style = {
   logoImage: {
     maxWidth: "4rem",
@@ -42,6 +44,10 @@ function Navbar() {
           <BreadcrumbItem>
             <Link className="nav-item" to="/profile">
               My profile
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <Link className="nav-item" onClick={Auth.logout}>Logout
             </Link>
           </BreadcrumbItem>
         </Breadcrumb>
