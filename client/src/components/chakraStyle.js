@@ -27,7 +27,7 @@ export const customTheme = extendTheme({
     Button: {
       baseStyle: {
         "@media screen and (max-width: 30em)": {
-          padding: "1px",
+          padding: "3px",
           margin: "0.1rem",
         },
       },

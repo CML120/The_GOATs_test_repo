@@ -23,7 +23,7 @@ const typeDefs = gql`
 
   type ContactResponse {
     success: Boolean!
-    message: String
+    message: String!
   }
 
   type Auth {
@@ -35,8 +35,8 @@ const typeDefs = gql`
     me: User
     users: [User]
     user(username: String!): User
-    userByEmail(email: String!): User 
-    getUserById(id: ID!): User 
+    userByEmail(email: String!): User
+    getUserById(id: ID!): User
     getWord(id: ID!): Word
     getWordsByDifficulty(level: Int!): [Word]
     getUserByUsername(username: String!): User

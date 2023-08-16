@@ -187,13 +187,23 @@ export default function PracticeLetter() {
   }, [showLetters, currentLetterIndex]);
 
   return (
-    <Box width="100%" p={{ base: 2, md: 4 }} pr={{ base: 0, md: 0 }}>
+    <Box
+      width="100%"
+      p={{ base: 2, md: 4 }}
+      pr={{ base: 0, md: 0 }}
+      ml={{ base: 0, md: 10 }}
+    >
       <Tabs className="tab-container">
         <TabList
-          style={{ flexWrap: "wrap", justifyContent: "center" }}
+          style={{
+            flexWrap: "wrap",
+            justifyContent: "center",
+            color: "white",
+            backgroundColor: "#B8860B",
+          }}
           mb={{ base: 4, md: 6 }}
-          maxW={{ base: "100%", md: "90%" }}
-          ml={{ base: 0, md: 8 }}
+          maxW={{ base: "90%", md: "85%" }}
+          ml={{ base: 1, md: 0 }}
         >
           <Tab>Learn All Letters</Tab>
           <Tab>Learn the Sound</Tab>
@@ -209,15 +219,18 @@ export default function PracticeLetter() {
               pl={{ base: 1, md: 6 }}
               mx={{ base: 0, md: 2 }}
             >
-              <h5>Welcome!</h5>
-              <p>
-                Your first step begins here to be a G.R.O.A.T GOAT (Greatest
-                Reader Of All Time)
-              </p>
-              <p>
-                Learn the letters, and you can also press each letter to listen
-                to its sound
-              </p>
+              <h3 style={{ color: "gold", fontSize: "40px" }}>Welcome!</h3>
+              <div style={{ color: "white" }}>
+                <p>
+                  Your first step begins here to be a G.R.O.A.T GOAT (Greatest
+                  Reader Of All Time)
+                </p>
+                <p>
+                  Learn the letters, and you can also press each letter to
+                  listen to its sound
+                </p>
+              </div>
+
               <Flex justifyContent={"center"}>
                 <div>
                   <AllLettersInOne letters={letters} onClick={soundGenerator} />
@@ -233,8 +246,8 @@ export default function PracticeLetter() {
               pl={{ base: 1, md: 6 }}
               mx={{ base: 0, md: 2 }}
             >
-              <h5>Welcome! </h5>
-              <p>
+              <h5 style={{ color: "gold", fontSize: "40px" }}>Welcome! </h5>
+              <p style={{ color: "white" }}>
                 {" "}
                 Here you are going to learn the sound of all letters in just one
                 click{" "}
@@ -274,12 +287,16 @@ export default function PracticeLetter() {
               mx={{ base: 0, md: 2 }}
             >
               <div>
-                <h2>Voice Command Practice</h2>
-                <p>
-                  Get closer to the microphone, click the start button, and
-                  speak out the letter randomly.
-                </p>
-                <p>You will hear back sound...</p>
+                <h2 style={{ color: "gold", fontSize: "36px" }}>
+                  Voice Command Practice
+                </h2>
+                <div style={{ color: "white" }}>
+                  <p>
+                    Get closer to the microphone, click the start button, and
+                    speak out the letter randomly.
+                  </p>
+                  <p>You will hear back sound...</p>
+                </div>
               </div>
 
               <Flex justifyContent={"center"}>

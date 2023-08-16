@@ -45,11 +45,11 @@ function LetterGame({ letters }) {
 
   return (
     <div>
-      <h3>Guess the Next Letter</h3>
+      <h3 style={{ color: "gold", fontSize: "30px" }}>Guess the Next Letter</h3>
 
       <Flex justifyContent={"center"}>
         <div>
-          <p>What letter comes after: </p>
+          <p style={{ color: "white" }}>What letter comes after: </p>
           <h4>{currentLetter}</h4>
 
           <input
@@ -63,9 +63,11 @@ function LetterGame({ letters }) {
 
           <CustomButton onClick={checkUserGuess}>Submit</CustomButton>
           {score >= 5 && showCongratulation && (
-            <div>
+            <div style={{ color: "white" }}>
               <p>Congratulation! You have completed the game</p>
-              <Link to="/spellinggame">Play Spelling Game</Link>
+              <Link pr={{ base: 2, md: 4 }} to="/spellinggame">
+                Play Spelling Game
+              </Link>
               <Link to="/playground">Go to Play Ground</Link>
             </div>
           )}
