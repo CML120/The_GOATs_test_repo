@@ -302,8 +302,6 @@ export default function PracticeLetter() {
               <Flex justifyContent={"center"}>
                 <CustomButton
                   className="start-stop-button"
-                  colorScheme="teal"
-                  size="lg"
                   onClick={startSoundRecognition}
                 >
                   {" "}

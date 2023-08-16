@@ -63,7 +63,7 @@ function LetterGame({ letters }) {
 
           <input
             className="letter-input"
-            style={{ padding: "3px" }}
+            style={{ padding: "5px" }}
             type="text"
             name="userInput"
             value={userGuess}
