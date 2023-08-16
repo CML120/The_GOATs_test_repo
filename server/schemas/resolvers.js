@@ -7,6 +7,14 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
+    me: async (parent, args, context) => {
+      console.log(context)
+      if (context.user) {
+        const userData = await User.findById(context.user._id).select("-__v -password");
+        return userData;
+      }
+      throw new AuthenticationError("not logged in");
+    },
     getWord: async (_, { id }) => {
       try {
         return await Word.findById(id);
@@ -28,9 +36,9 @@ const resolvers = {
         throw new Error("Error fetching user by username");
       }
     },
-    getProfile: async (_, { userId }) => {
+    getProfile: async (_, { username }) => {
       try {
-        return await Profile.findOne({ user: userId });
+        return await Profile.findOne({ user: username });
       } catch (error) {
         throw new Error("Error fetching profile");
       }

@@ -53,11 +53,6 @@
   color: red !important;
 }
 
-.level{
-  color: gold !important;
-  font-size: 105% !important;
-}
-
 .img-container {
   position: fixed;
   top: 25%;
@@ -66,10 +61,10 @@
 
 .responsive-image {
   position: fixed;
-  top: 30%;
-  right: 9%;
-  width: 19%;
-  height: 29%;
+  top: 22%;
+  right: 6%;
+  width: 27%;
+  height: 44%;
   border-radius: 30px;
   object-fit: fill;
   border: 5px solid rgb(14, 53, 30);
@@ -85,136 +80,49 @@
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   .spelling-game {
-    margin: 30px auto;
-    /* Adjust margin for smaller screens */
-    padding: 10px;
-    /* Adjust padding for smaller screens */
+    margin: 30px auto; /* Adjust margin for smaller screens */
+    padding: 10px; /* Adjust padding for smaller screens */
   }
 
   .spelling-game h1 {
-    font-size: 20px;
-    /* Adjust font size for smaller screens */
-    margin-bottom: 10px;
-    /* Adjust margin for smaller screens */
+    font-size: 20px; /* Adjust font size for smaller screens */
+    margin-bottom: 10px; /* Adjust margin for smaller screens */
   }
 
   .spelling-game p {
-    font-size: 16px;
-    /* Adjust font size for smaller screens */
-    margin-bottom: 5px;
-    /* Adjust margin for smaller screens */
+    font-size: 16px; /* Adjust font size for smaller screens */
+    margin-bottom: 5px; /* Adjust margin for smaller screens */
   }
 
   .spelling-game button {
-    font-size: 16px;
-    /* Adjust font size for smaller screens */
-    padding: 6px 10px;
-    /* Adjust padding for smaller screens */
+    font-size: 16px; /* Adjust font size for smaller screens */
+    padding: 6px 10px; /* Adjust padding for smaller screens */
   }
 
   .spelling-game .spoken-word-container {
-    margin: 10px 0;
-    /* Adjust margin for smaller screens */
-    font-size: 16px;
-    /* Adjust font size for smaller screens */
+    margin: 10px 0; /* Adjust margin for smaller screens */
+    font-size: 16px; /* Adjust font size for smaller screens */
   }
 
   .message-container {
-    margin-top: 5px;
-    /* Adjust margin for smaller screens */
+    margin-top: 5px; /* Adjust margin for smaller screens */
   }
 
   .img-container {
-    top: 15%;
-    /* Adjust top position for smaller screens */
-    right: 3%;
-    /* Adjust right position for smaller screens */
+    top: 15%; /* Adjust top position for smaller screens */
+    right: 3%; /* Adjust right position for smaller screens */
   }
 
   .responsive-image {
-    width: 28%;
-    /* Adjust width for smaller screens */
-    height: 30%;
-    /* Adjust height for smaller screens */
-    top: 20%;
-    /* Adjust top position for smaller screens */
-    right: 4%;
-    /* Adjust right position for smaller screens */
+    width: 28%; /* Adjust width for smaller screens */
+    height: 30%; /* Adjust height for smaller screens */
+    top: 20%; /* Adjust top position for smaller screens */
+    right: 4%; /* Adjust right position for smaller screens */
   }
 
   .button-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    /* Adjust this value for spacing between buttons */
-    margin-top: 20px;
-    /* Add margin to separate from other content */
+    margin-top: 5px; /* Adjust margin for smaller screens */
   }
 }
 
 
-@media (max-width: 550px) {
-  .spelling-game {
-    margin: 30px auto;
-    /* Adjust margin for smaller screens */
-    padding: 10px;
-    /* Adjust padding for smaller screens */
-  }
-
-  .spelling-game h1 {
-    font-size: 20px;
-    /* Adjust font size for smaller screens */
-    margin-bottom: 10px;
-    /* Adjust margin for smaller screens */
-  }
-
-  .spelling-game p {
-    font-size: 16px;
-    /* Adjust font size for smaller screens */
-    margin-bottom: 5px;
-    /* Adjust margin for smaller screens */
-  }
-
-  .spelling-game button {
-    font-size: 16px;
-    /* Adjust font size for smaller screens */
-    padding: 6px 10px;
-    /* Adjust padding for smaller screens */
-  }
-
-  .spelling-game .spoken-word-container {
-    margin: 10px 0;
-    /* Adjust margin for smaller screens */
-    font-size: 16px;
-    /* Adjust font size for smaller screens */
-  }
-
-  .message-container {
-    margin-top: 5px;
-    /* Adjust margin for smaller screens */
-  }
-
-  .img-container {
-    top: 15%;
-    /* Adjust top position for smaller screens */
-    right: 3%;
-    /* Adjust right position for smaller screens */
-  }
-
-  .responsive-image {
-    width: 22%;
-    /* Adjust width for smaller screens */
-    height: 20%;
-    /* Adjust height for smaller screens */
-    top: 30%;
-    /* Adjust top position for smaller screens */
-    right: 4%;
-    /* Adjust right position for smaller screens */
-  }
-
-  .button-container {
-    display: flex;
-    flex-wrap: wrap;
-
-  }
-}

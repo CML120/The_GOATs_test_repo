@@ -6,6 +6,7 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
 import "./App.css";
 import SpellingGame from "./components/SpellingGame";
 import PracticeLetter from "./components/practiceLetter";
@@ -21,14 +22,27 @@ import { Box } from "@chakra-ui/react";
 import Contact from "./components/Contact";
 
 const httpLink = createHttpLink({
-  uri: "http://www.localhost:3001/graphql",
+  uri: "/graphql",
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('id_token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
 });
 // import LetterPhonetics from "./components/phoneticsPractice";
 const client = new ApolloClient({
   // uri: "/graphql",
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
 
 export default function App() {
   return (
