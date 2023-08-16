@@ -10,14 +10,18 @@ function PlayGround() {
     const [spokenWord, setSpokenWord] = useState("");
     const [gifUrl, setGifUrl] = useState("");
     const [listening, setListening] = useState(false);
+    const [showInstructions, setShowInstructions] = useState(true);
+
+    const handleStartListening = () => {
+        setListening(true);
+        setShowInstructions(false);
+    };
+
+    const handleStopListening = () => {
+        setListening(false);
+    };
 
     useEffect(() => {
-        if (listening) {
-            annyang.start();
-        } else {
-            annyang.abort();
-        }
-
         const handleSpeech = async (phrases) => {
             if (phrases && phrases.length > 0) {
                 const spoken = phrases[0];
@@ -26,10 +30,17 @@ function PlayGround() {
             }
         };
 
-        annyang.addCallback("result", handleSpeech);
+        if (listening) {
+            annyang.addCallback("result", handleSpeech);
+            annyang.start();
+        } else {
+            annyang.removeCallback("result", handleSpeech);
+            annyang.abort();
+        }
 
         return () => {
             annyang.removeCallback("result", handleSpeech);
+            annyang.abort();
         };
     }, [listening]);
 
@@ -47,10 +58,21 @@ function PlayGround() {
 
     return (
         <div className="playground-container">
-            <div className="button-container-PG">
-                <button className="start-stop-button" onClick={() => setListening(!listening)}>
-                    {listening ? "Click Me to Stop Listening!" : "Click Me to Start Listening!"}
-                </button>
+            <div className="speech-recognition-container">
+                {showInstructions && (
+                    <p className="instruction-text">
+                        Click the button below and say a word. Watch for the magic to happen!
+                    </p>
+                )}
+                {listening ? (
+                    <button className="start-stop-button" onClick={handleStopListening}>
+                        Click Me to Stop Listening!
+                    </button>
+                ) : (
+                    <button className="start-stop-button" onClick={handleStartListening}>
+                        Click Me to Start Listening!
+                    </button>
+                )}
             </div>
             <p className="spoken-word-PG">What you said: {spokenWord}</p>
             {gifUrl && (
@@ -58,8 +80,10 @@ function PlayGround() {
                     <img src={gifUrl} alt="Giphy" className="gif-image" />
                 </div>
             )}
-            
-            <WordGuessGame />
+
+            <div className="word-guess-game-container">
+                <WordGuessGame />
+            </div>
         </div>
     );
 }

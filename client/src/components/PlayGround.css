@@ -13,7 +13,6 @@
   }
   
   .start-stop-button {
-    display: flex;
     background: radial-gradient(circle, rgba(240, 230, 140, 1) 0%, rgba(187, 96, 33, 0.954) 100%);
     border-radius: 8px;
     color: #13293d;
@@ -25,8 +24,8 @@
     text-align: center;
     transition: background-color 0.15s linear;
     margin-top: 20px;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 10%;
+    margin-right: 11.3%;
   }
   
   .spoken-word-PG {
@@ -47,4 +46,9 @@
     height: auto;
   }
   
+  .instruction-text {
+    font-size: 18px;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
   
