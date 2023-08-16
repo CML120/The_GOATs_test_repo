@@ -11,12 +11,13 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
+    level: Int!
   }
 
   type Profile {
     _id: ID!
     username: String!
-    email: String! # Add the email field here
+    email: String!
     level: Int!
   }
 
@@ -31,6 +32,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    me: User
     users: [User]
     user(username: String!): User
     userByEmail(email: String!): User 
@@ -38,8 +40,8 @@ const typeDefs = gql`
     getWord(id: ID!): Word
     getWordsByDifficulty(level: Int!): [Word]
     getUserByUsername(username: String!): User
-    getProfile(criteria: ProfileCriteriaInput!): Profile
-    userById(id: ID!): User # Combine the two Query definitions into one
+    getProfile(username: String!): Profile
+    userById(id: ID!): User
   }
 
   input ProfileCriteriaInput {

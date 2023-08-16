@@ -8,7 +8,7 @@ const { typeDefs, resolvers } = require('./schemas');
 
 // Import database connection
 const db = require('./config/connection');
-const authMiddleware = require('./utils/auth');
+const {authMiddleware} = require('./utils/auth');
 
 // Define the port for the server, defaults to 3001
 const PORT = process.env.PORT || 3001;
