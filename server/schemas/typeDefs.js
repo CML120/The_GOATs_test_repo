@@ -56,7 +56,7 @@ const typeDefs = gql`
     updatePlayerLevel(userId: ID!, newLevel: Int!): User
     userById(id: ID!): User
 
-    submitContactForm(contactFields: ContactFormInput!): ContactResponse
+    submitContactForm(input: ContactFormInput!): ContactResponse
   }
 
   input ProfileInput {

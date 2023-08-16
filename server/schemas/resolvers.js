@@ -8,9 +8,11 @@ const { signToken } = require("../utils/auth");
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
-      console.log(context)
+      console.log(context);
       if (context.user) {
-        const userData = await User.findById(context.user._id).select("-__v -password");
+        const userData = await User.findById(context.user._id).select(
+          "-__v -password"
+        );
         return userData;
       }
       throw new AuthenticationError("not logged in");
@@ -120,6 +122,10 @@ const resolvers = {
           message: input.message,
         });
         await addContact.save();
+        return {
+          success: true,
+          message: "Form submitted successfully.",
+        };
       } catch (error) {
         console.error("Error saving Contact message", error);
         return {

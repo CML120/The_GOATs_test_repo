@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Contact.css";
 import { useMutation } from "@apollo/client";
 import { ADD_CONTACT } from "../utils/mutations";
@@ -6,6 +6,7 @@ import { ADD_CONTACT } from "../utils/mutations";
 export default function Contact() {
   // handle ADD_CONTACT mutation
   const [submitContactForm, { error, data }] = useMutation(ADD_CONTACT);
+  const [submitMessage, setSubmitMessage] = useState(null);
 
   // Handle form submission
   const submitFormHandler = async (e) => {
@@ -26,16 +27,16 @@ export default function Contact() {
       });
       console.log("mutation result: ", result);
 
-      if (result.errors) {
-        console.log("mutation error: ", result.errors);
+      if (error) {
+        console.log("mutation error: ", error.message);
         return;
       }
-      const { data } = result;
+      // const { data } = result;
       // Check if the form submission was successful
-      if (data.submitContactForm.success) {
-        console.log("Form submitted successfully.");
+      if (result.data.submitContactForm.success) {
+        setSubmitMessage("Form submitted successfully.");
       } else {
-        console.error("Form submission failed.");
+        setSubmitMessage("Form submission failed.");
       }
     } catch (error) {
       console.error(error);
@@ -81,6 +82,9 @@ export default function Contact() {
             Submit
           </button>
         </form>
+        <div>
+          {submitMessage && <p className="submit-message">{submitMessage}</p>}
+        </div>
       </div>
     </div>
   );
