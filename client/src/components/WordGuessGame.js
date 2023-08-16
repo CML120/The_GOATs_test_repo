@@ -13,6 +13,7 @@ function WordGuessGame() {
     const [loseCounter, setLoseCounter] = useState(0);
     const [imageUrl, setImageUrl] = useState("");
     const [gameStarted, setGameStarted] = useState(false);
+    const [showInstructions, setShowInstructions] = useState(true);
 
     const words = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon', 'pineapple', 'blueberry', 'cherry','zebra' , 'cow', 'cat', 'dog', 'horse', 'spongebob', 'bear', 'woody', 'buzz', 'football', 'baseball', 'basketball' ];
 
@@ -74,6 +75,7 @@ function WordGuessGame() {
         startTimer();
         renderBlanks();
         setGameStarted(true);
+        setShowInstructions(false);
     };
 
     const startTimer = () => {
@@ -114,6 +116,11 @@ function WordGuessGame() {
     return (
         <div className="word-guess-game">
             {gameStarted && <img src={imageUrl} alt="Word Gif" className="word-gif" />}
+            {showInstructions && (
+                <p className="instructions">
+                    Welcome to Guess the GIF! Use the keyboard to try to guess the word by filling in the blanks. You have 15 seconds to make each guess. Good luck!
+                </p>
+            )}
             <p className="guess-word">
                 Guess the Gif! {blanksLetters.map((letter, index) => (
                     <span key={index} className="blank-letter">

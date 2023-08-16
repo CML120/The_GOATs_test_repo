@@ -77,6 +77,27 @@
   margin-top: 10px;
 }
 
+
+@media (max-width: 830px) {
+  .responsive-image {
+    position: fixed;
+    top: 15%;
+    right: 5%;
+    width: 20%;
+    height: 25%;
+    border-radius: 30px;
+    object-fit: fill;
+    border: 5px solid rgb(14, 53, 30);
+  }
+
+  .button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+}
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   .spelling-game {
@@ -114,14 +135,23 @@
   }
 
   .responsive-image {
-    width: 28%; /* Adjust width for smaller screens */
-    height: 30%; /* Adjust height for smaller screens */
-    top: 20%; /* Adjust top position for smaller screens */
-    right: 4%; /* Adjust right position for smaller screens */
+    width: 20%;
+    /* Adjust width for smaller screens */
+    height: 25%;
+    /* Adjust height for smaller screens */
+    top: 20%;
+    /* Adjust top position for smaller screens */
+    right: 4%;
+    /* Adjust right position for smaller screens */
   }
 
   .button-container {
-    margin-top: 5px; /* Adjust margin for smaller screens */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* Adjust this value for spacing between buttons */
+    margin-top: 50px;
+    /* Add margin to separate from other content */
   }
 }
 

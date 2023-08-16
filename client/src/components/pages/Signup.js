@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../utils/mutations';
-
 import './Signup.css';
-
 import Auth from '../../utils/auth';
-
 import {
   Input,
   Button,
@@ -15,10 +11,9 @@ import {
   Box,
   Flex,
   Center,
-  Stack,
   VStack,
   Spacer,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -43,7 +38,6 @@ const Signup = () => {
       const { data } = await createUser({
         variables: { ...formState },
       });
-console.log(data);
       Auth.login(data.createUser.token);
     } catch (e) {
       console.error(e);
@@ -51,76 +45,86 @@ console.log(data);
   };
 
   return (
-    <main id="signupForm"className="">
-      <Flex>
-        <Center width={"100vw"}>
-        <VStack spacing='1vh'>
-          <h1 className="">Sign Up</h1>
-          <div className="">
-            {data ? (
-              <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the homepage.</Link>
-              </p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
-                 <Box>
-                <label for="Input1" class="form-label">Username: </label>
-                <input
-                  className=""
-                  placeholder="Your username"
-                  name="username"
-                  type="text"
-                  value={formState.name}
-                  onChange={handleChange}
-                />
-                </Box>
-                <Spacer />
-                <Box>
-                <label for="Input2" class="form-label">Email: </label>
-                <input
-                  className=""
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                </Box>
-                <Spacer />
-                <Box>
-                <label for="Input3" class="form-label">Password: </label>
-                <input
-                  className=""
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                </Box>
-                <Spacer />
-                    <Box>
-                      <Button size='lg' borderRadius='lg' bg='black' color='white'
-                        className=""
-                        style={{ cursor: 'pointer' }}
-                        type="submit"
-                      >
-                        Submit
-                      </Button>
-                    </Box>
-                    <Spacer />
-              </form>
-            )}
-
-            {error && (
-              <div className="">
-                {error.message}
-              </div>
-            )}
-          </div>
+    <main id="signupForm" className="" style={{ marginTop: '-150px' }}>
+      <Flex align="center" justify="center" height="100vh">
+        <Container>
+          <VStack spacing='1vh'>
+            <Box>
+              <h1 className="">Sign Up</h1>
+            </Box>
           </VStack>
-        </Center>
+          <VStack spacing='1vh'>
+            <Box>
+              {data ? (
+                <Box>
+                  Success! You may now head{' '}
+                  <Link to="/">back to the homepage.</Link>
+                </Box>
+              ) : (
+                <form onSubmit={handleFormSubmit}>
+                  <Box mb="4">
+                    <label htmlFor="Input1" className="form-label">Username: </label>
+                    <Input
+                      size="lg"
+                      fontSize="xl" // Adjust font size here
+                      className=""
+                      placeholder="Your username"
+                      name="username"
+                      type="text"
+                      value={formState.username}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                  <Box mb="4">
+                    <label htmlFor="Input2" className="form-label">Email: </label>
+                    <Input
+                      size="lg"
+                      fontSize="xl" // Adjust font size here
+                      className=""
+                      placeholder="Your email"
+                      name="email"
+                      type="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                  <Box mb="4">
+                    <label htmlFor="Input3" className="form-label">Password: </label>
+                    <Input
+                      size="lg"
+                      fontSize="xl" // Adjust font size here
+                      className=""
+                      placeholder="******"
+                      name="password"
+                      type="password"
+                      value={formState.password}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                  <Center>
+                    <Button
+                      size='lg'
+                      borderRadius='lg'
+                      bg='black'
+                      color='white'
+                      className=""
+                      style={{ cursor: 'pointer' }}
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
+                  </Center>
+                </form>
+              )}
+
+              {error && (
+                <div className="">
+                  {error.message}
+                </div>
+              )}
+            </Box>
+          </VStack>
+        </Container>
       </Flex>
     </main>
   );
