@@ -57,9 +57,6 @@ const Login = (props) => {
         if (userData?.userByEmail) {
           const { _id, username, email, level } = userData.userByEmail;
           console.log('User Details:', { _id, username, email, level });
-          // Save user details to local storage
-          localStorage.setItem('userInfo', JSON.stringify({ _id, username, email, level }));
-          console.log('LocalStorage:', localStorage.getItem('userInfo'));
         }
       }
     } catch (e) {
