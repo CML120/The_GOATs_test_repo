@@ -263,7 +263,7 @@ const SpellingGame = () => {
       </div>
 
       <div className="spoken-word-container">
-        <p>Spoken Letters: {spokenWord}</p>
+        <p className="level">Spoken Letters: {spokenWord}</p>
       </div>
 
 
