@@ -203,7 +203,7 @@ export default function PracticeLetter() {
           }}
           mb={{ base: 4, md: 6 }}
           maxW={{ base: "90%", md: "85%" }}
-          ml={{ base: 1, md: 0 }}
+          ml={{ base: 2.5, md: 10 }}
         >
           <Tab>Learn All Letters</Tab>
           <Tab>Learn the Sound</Tab>

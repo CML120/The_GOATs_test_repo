@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { CustomButtonStyle } from "./chakraStyle";
-import { Button, Flex, FormControl, chakra } from "@chakra-ui/react";
+import { Button, Flex, chakra, Box } from "@chakra-ui/react";
 const CustomButton = chakra(Button, CustomButtonStyle);
 
 function LetterGame({ letters }) {
   // State variable
   const [currentLetter, setCurrentLetter] = useState("");
-  const [userGuess, setUserGuess] = useState();
+  const [userGuess, setUserGuess] = useState("");
   const [score, setScore] = useState(0);
   const [showCongratulation, setShowCongratulation] = useState(false);
 
@@ -19,11 +19,19 @@ function LetterGame({ letters }) {
 
   // Start the game
   const playGame = () => {
-    const letter = randomLetter();
-    setCurrentLetter(letter);
-    setUserGuess("");
-    setScore(0);
-    setShowCongratulation(false);
+    // Show the next random letter if the score is less than 5, otherwise it clears everything
+    if (score !== 5) {
+      const letter = randomLetter();
+      setCurrentLetter(letter);
+      // setUserGuess("");
+      setScore(0);
+      setShowCongratulation(false);
+    } else {
+      setUserGuess("");
+      setCurrentLetter("");
+      setScore(0);
+      setShowCongratulation(false);
+    }
   };
 
   // Check the user guess
@@ -39,21 +47,23 @@ function LetterGame({ letters }) {
         setScore(score + 1);
         setShowCongratulation(true);
       }
+      setUserGuess("");
     }
-    setUserGuess("");
   };
 
   return (
     <div>
       <h3 style={{ color: "gold", fontSize: "30px" }}>Guess the Next Letter</h3>
+      <p style={{ color: "white", fontSize: "30px" }}>Score: {score}</p>
 
       <Flex justifyContent={"center"}>
         <div>
           <p style={{ color: "white" }}>What letter comes after: </p>
-          <h4>{currentLetter}</h4>
+          <h4 style={{ color: "gold", fontSize: "30px" }}>{currentLetter}</h4>
 
           <input
             className="letter-input"
+            style={{ padding: "3px" }}
             type="text"
             name="userInput"
             value={userGuess}
@@ -62,13 +72,27 @@ function LetterGame({ letters }) {
           />
 
           <CustomButton onClick={checkUserGuess}>Submit</CustomButton>
-          {score >= 5 && showCongratulation && (
+          {score === 5 && showCongratulation && (
             <div style={{ color: "white" }}>
-              <p>Congratulation! You have completed the game</p>
-              <Link pr={{ base: 2, md: 4 }} to="/spellinggame">
-                Play Spelling Game
-              </Link>
-              <Link to="/playground">Go to Play Ground</Link>
+              <p>Congratulation! You have completed the game.</p>
+              <Box p={2} color="goldenrod">
+                <Link p={{ base: 2, md: 10 }} to="/spellinggame">
+                  Play Spelling Game
+                </Link>
+              </Box>
+
+              <Box
+                p={2}
+                style={{
+                  color: "goldenrod",
+                  border: "2px",
+                  borderColor: "yellow",
+                }}
+              >
+                <Link p={{ base: 2, md: 10 }} to="/playground">
+                  Go to Play Ground
+                </Link>
+              </Box>
             </div>
           )}
 
