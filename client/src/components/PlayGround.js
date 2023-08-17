@@ -14,16 +14,19 @@ function PlayGround() {
     const [showInstructions, setShowInstructions] = useState(true);
     const [rotationKey, setRotationKey] = useState(0);
 
+    // Function to start listening for speech input
     const handleStartListening = () => {
         setListening(true);
         setShowInstructions(false);
     };
 
+    // Function to stop listening for speech input
     const handleStopListening = () => {
         setListening(false);
     };
 
     useEffect(() => {
+        // Callback function to handle recognized speech
         const handleSpeech = async (phrases) => {
             if (phrases && phrases.length > 0) {
                 const spoken = phrases[0];
@@ -33,24 +36,29 @@ function PlayGround() {
         };
 
         if (listening) {
+            // Add callback for speech recognition and start listening
             annyang.addCallback("result", handleSpeech);
             annyang.start();
         } else {
+            // Remove callback and stop listening
             annyang.removeCallback("result", handleSpeech);
             annyang.abort();
         }
 
+        // Clean up when component unmounts or listening changes
         return () => {
             annyang.removeCallback("result", handleSpeech);
             annyang.abort();
         };
     }, [listening]);
 
+    // Function to fetch a Giphy image based on the spoken word
     const fetchGiphyImage = async (word) => {
         try {
             const { data } = await giphyFetch.random({ tag: word });
             console.log("Giphy API Response:", data);
             if (data && data.images.original.url) {
+                // Update the GIF URL and rotation key to trigger animation
                 setGifUrl(data.images.original.url);
                 setRotationKey(rotationKey + 1);
             }

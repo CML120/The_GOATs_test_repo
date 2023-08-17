@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import "./WordGuessGame.css";
 
 function WordGuessGame() {
+    // State variables
     const [chosenWord, setChosenWord] = useState("");
     const [blanksLetters, setBlanksLetters] = useState([]);
     const [hintsLetters, setHintsLetters] = useState([]);
@@ -16,14 +17,17 @@ function WordGuessGame() {
     const [showInstructions, setShowInstructions] = useState(true);
     const [forceRerender, setForceRerender] = useState(false);
 
+    // List of words for the game
     const words = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon', 'pineapple', 'blueberry', 'cherry', 'zebra', 'cow', 'cat', 'dog', 'horse', 'spongebob', 'bear', 'woody', 'buzz', 'football', 'baseball', 'basketball'];
 
+    // Check if the player has won
     const checkWin = useCallback((updatedBlanks) => {
         if (chosenWord === updatedBlanks.join("")) {
             setIsWin(true);
         }
     }, [chosenWord]);
 
+    // Check if a letter is present in the chosen word
     const checkLetters = useCallback((letter) => {
         const updatedBlanks = blanksLetters.map((blank, index) =>
             chosenWord[index] === letter ? chosenWord[index] : blank
@@ -32,17 +36,19 @@ function WordGuessGame() {
         checkWin(updatedBlanks);
     }, [blanksLetters, chosenWord, checkWin]);
 
+    // Handle keyboard input during the game
     const handleKeyDown = useCallback((event) => {
         if (timerCount > 0 && !isWin && !isLost) {
             const key = event.key;
             const alphabetNumericCharacters = "abcdefghijklmnopqrstuvwxyz0123456789 ".split("");
-            
+
             if (alphabetNumericCharacters.includes(key)) {
                 checkLetters(key);
             }
         }
     }, [timerCount, isWin, isLost, checkLetters]);
 
+    // Effects related to game progress
     useEffect(() => {
         if (isWin) {
             clearInterval(timer);
@@ -55,6 +61,7 @@ function WordGuessGame() {
     }, [isWin, timerCount, timer]);
 
     useEffect(() => {
+        // Adding and removing keydown event listener
         document.addEventListener("keydown", handleKeyDown);
 
         return () => {
@@ -64,10 +71,12 @@ function WordGuessGame() {
 
     useEffect(() => {
         if (chosenWord && gameStarted) {
+            // Force rerender to update the GIF
             setForceRerender(prev => !prev);
         }
     }, [chosenWord, gameStarted]);
 
+    // Function to start the game
     const startGame = () => {
         setIsWin(false);
         setIsLost(false);
@@ -80,12 +89,14 @@ function WordGuessGame() {
         setForceRerender(prev => !prev);
     };
 
+    // Start the countdown timer
     const startTimer = () => {
         setTimer(setInterval(() => {
             setTimerCount(prevCount => prevCount - 1);
         }, 1000));
     };
 
+    // Render the blanks for the chosen word
     const renderBlanks = () => {
         const randomIndex = Math.floor(Math.random() * words.length);
         const wordToGuess = words[randomIndex];
@@ -97,15 +108,18 @@ function WordGuessGame() {
         setHintsLetters(shuffledWord);
     };
 
+    // Function to handle winning the game
     const winGame = () => {
         setWinCounter(prevCounter => prevCounter + 1);
     };
 
+    // Function to handle losing the game
     const loseGame = () => {
         setLoseCounter(prevCounter => prevCounter + 1);
         setIsLost(true);
     };
 
+    // Function to shuffle an array
     const shuffleArray = (array) => {
         const shuffled = [...array];
         for (let i = shuffled.length - 1; i > 0; i--) {
