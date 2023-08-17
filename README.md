@@ -58,8 +58,8 @@ SOFTWARE.
 ```
   
   ## Installation 
-  Clone the repo. 
-  Then run "npm install" in the terminal.
+  Clone the repo.   
+  Then run "npm install" in the terminal.  
   Next run "npm seed" to seed the data for the words.
 
 
