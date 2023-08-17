@@ -3,6 +3,7 @@ import annyang from "annyang";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import "./PlayGround.css";
 import WordGuessGame from "./WordGuessGame";
+import { motion } from "framer-motion";
 
 const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
 
@@ -11,6 +12,7 @@ function PlayGround() {
     const [gifUrl, setGifUrl] = useState("");
     const [listening, setListening] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true);
+    const [rotationKey, setRotationKey] = useState(0);
 
     const handleStartListening = () => {
         setListening(true);
@@ -50,6 +52,7 @@ function PlayGround() {
             console.log("Giphy API Response:", data);
             if (data && data.images.original.url) {
                 setGifUrl(data.images.original.url);
+                setRotationKey(rotationKey + 1);
             }
         } catch (error) {
             console.error("Error fetching Giphy data:", error);
@@ -76,9 +79,15 @@ function PlayGround() {
             </div>
             <p className="spoken-word-PG">What you said: {spokenWord}</p>
             {gifUrl && (
-                <div className="gif-container-PG">
+                <motion.div
+                    key={rotationKey}
+                    className="gif-container-PG"
+                    initial={{ opacity: 0, scale: 0.5, rotate: 0 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                >
                     <img src={gifUrl} alt="Giphy" className="gif-image" />
-                </div>
+                </motion.div>
             )}
 
             <div className="word-guess-game-container">

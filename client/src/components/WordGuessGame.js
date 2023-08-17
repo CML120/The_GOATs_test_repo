@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import './WordGuessGame.css';
+import { motion } from "framer-motion";
+import "./WordGuessGame.css";
 
 function WordGuessGame() {
     const [chosenWord, setChosenWord] = useState("");
@@ -11,11 +12,11 @@ function WordGuessGame() {
     const [timerCount, setTimerCount] = useState(15);
     const [winCounter, setWinCounter] = useState(0);
     const [loseCounter, setLoseCounter] = useState(0);
-    const [imageUrl, setImageUrl] = useState("");
     const [gameStarted, setGameStarted] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true);
+    const [forceRerender, setForceRerender] = useState(false);
 
-    const words = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon', 'pineapple', 'blueberry', 'cherry','zebra' , 'cow', 'cat', 'dog', 'horse', 'spongebob', 'bear', 'woody', 'buzz', 'football', 'baseball', 'basketball' ];
+    const words = ['apple', 'banana', 'orange', 'grape', 'watermelon', 'strawberry', 'lemon', 'pineapple', 'blueberry', 'cherry', 'zebra', 'cow', 'cat', 'dog', 'horse', 'spongebob', 'bear', 'woody', 'buzz', 'football', 'baseball', 'basketball'];
 
     const checkWin = useCallback((updatedBlanks) => {
         if (chosenWord === updatedBlanks.join("")) {
@@ -63,7 +64,7 @@ function WordGuessGame() {
 
     useEffect(() => {
         if (chosenWord && gameStarted) {
-            setImageUrl(`/images/${chosenWord}.gif`);
+            setForceRerender(prev => !prev);
         }
     }, [chosenWord, gameStarted]);
 
@@ -76,6 +77,7 @@ function WordGuessGame() {
         renderBlanks();
         setGameStarted(true);
         setShowInstructions(false);
+        setForceRerender(prev => !prev);
     };
 
     const startTimer = () => {
@@ -115,7 +117,17 @@ function WordGuessGame() {
 
     return (
         <div className="word-guess-game">
-            {gameStarted && <img src={imageUrl} alt="Word Gif" className="word-gif" />}
+            {gameStarted && (
+                <motion.img
+                    key={forceRerender.toString()}
+                    src={`/images/${chosenWord}.gif`}
+                    alt="Word Gif"
+                    className="word-gif"
+                    initial={{ opacity: 0, rotate: -180 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    transition={{ duration: 1 }}
+                />
+            )}
             {showInstructions && (
                 <p className="instructions">
                     Welcome to Guess the GIF! Use the keyboard to try to guess the word by filling in the blanks. You have 15 seconds to make each guess. Good luck!

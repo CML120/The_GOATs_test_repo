@@ -51,6 +51,7 @@
   .word-gif{
     max-width: 65%;
     height: auto;
+    border-radius: 5%;
   }
 
   .instructions {
