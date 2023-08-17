@@ -22,7 +22,7 @@ export default function Home() {
             the order of the alphabet. When you are ready head on over to the
             Spelling Game and ask yourself, "Are you ready to achieve G.R.O.A.T.
             status?" G.R.O.A.T stands for Greatest reader of all time! See if
-            you can spell all the words before time runs out! Good luck!
+            you can spell all the words! Good luck!
           </p>
         </VStack>
       </Center>

@@ -245,7 +245,7 @@ const SpellingGame = () => {
           ))
         ) : (
           <>
-            G.R.O.A.T. <button className="game-button" onClick={handleResetLevel}>Reset Level</button>
+            G.R.O.A.T. <button className="game-button" onClick={handleResetLevel}>Play Again</button>
           </>
         )}
       </p>

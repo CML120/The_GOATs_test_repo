@@ -1,24 +1,34 @@
 
   
-  # Title: (Work in Progress)   [![Generic badge](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/.)
-
+  # ABC Goat   [![Generic badge](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/.)  
+  ![Alt text](image-1.png)
   ## Table of Contents
   - [Description](#project-description)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Contribution](#contribution)
-  - [Testing](#testing)
   - [Contact](#contact)
 
 
   ## Project Description
-  This is the project description
+
+ABC GOAT is a learning app that teaches kids to read while playing games and having fun!   
+The game offers a play ground where the user can play a word guessing game, or just say words and see pictures associated with the word pop up!  
+The Practice Letters page allows the user to learn the alphabet through various activities, such as hearing each letter, learning each letter's sound, and then practicing them.  There is also a Spelling Game that the user can play.
+
   
 
   ## Technologies Used  
   [annyang](https://www.npmjs.com/package/annyang)  
   [SpeechSynthesis](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)  
-  [React](https://react.dev/learn)
+  [React](https://react.dev/learn) and various React libraries such as react-awesome-reveal, react-router-dom, react-scripts  
+  [Apollo Client](https://www.npmjs.com/package/@apollo/client)
+  [GraphQL](https://graphql.org/)  
+  [jwt-decode](https://www.npmjs.com/package/jwt-decode)  
+  [axios](https://www.npmjs.com/package/axios)  
+  [Giphy API](https://developers.giphy.com/)
+
+   
   ### License 
   
   [![Generic badge](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/.)
@@ -48,19 +58,20 @@ SOFTWARE.
 ```
   
   ## Installation 
-  install instructions
+  Clone the repo. 
+  Then run "npm install" in the terminal.
+  Next run "npm seed" to seed the data for the words.
 
 
   ## Usage 
-  usage instructions
+  Run "npm run develop" in the terminal to start the server and client.  
+  The web app will be available at http://localhost:3000/ when ran locally.
 
 
   ## Contribution
-  contribution instructions
+  This project is open to coders who want to collaborate and contribute.
 
 
-  ## Testing
-  testing instructions
 
   
 # Credits
@@ -74,3 +85,4 @@ Jenna Strom - https://github.com/JennaStrom
 Nafbek Kebede -  https://github.com/Nafbek  
 Chee Lor - https://github.com/CML120
 
+![Alt text](image.png)
