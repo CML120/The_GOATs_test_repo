@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   Container,
   Divider,
   Flex,
@@ -9,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
-import './Footer.css'
+import "./Footer.css";
 
 const style = {
   upperStyle: {
@@ -39,8 +38,8 @@ export default function Footer() {
             <Link to="/letters">
               <h4>Letters</h4>
             </Link>
-            <Link to="/phonetics">
-              <h4>Phonetics</h4>
+            <Link to="/playground">
+              <h4>Play Ground</h4>
             </Link>
           </Box>
           <Spacer />

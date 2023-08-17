@@ -14,10 +14,6 @@ import {
 } from "@chakra-ui/react";
 import LetterGame, { AllLettersInOne } from "./LetterGame";
 
-// import SpeechRecognitionComponent from "./SpeechRecognitionComponent";
-// import SpellingGame from "./SpellingGame";
-
-// https://balsamiq.cloud/s4ss2ue/pze1uia/r2278
 const CustomButton = chakra(Button, CustomButtonStyle);
 export default function PracticeLetter() {
   const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
@@ -75,8 +71,9 @@ export default function PracticeLetter() {
 
   // Fetch and display gifs for a letter
   const giphyImage = async (letter) => {
+    console.log(letter);
     try {
-      const response = await gf.animate(letter, { limit: 2 });
+      const response = await gf.animate(letter, { limit: 1 });
 
       setResults(response.data);
     } catch (error) {
@@ -111,15 +108,10 @@ export default function PracticeLetter() {
     recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
+      console.log(event.results);
       const letter = event.results[0][0].transcript.toUpperCase();
+      console.log(letter);
       setUserSound(letter);
-
-      // ??????????????????????
-      if (letters.includes(letter.charAt(0))) {
-        soundGenerator(letter);
-      } else {
-        return <div>Try again</div>;
-      }
     };
 
     recognition.onerror = (event) => {
@@ -136,21 +128,19 @@ export default function PracticeLetter() {
   }, []);
   //Generate sound
   const soundGenerator = (letter) => {
-    setUserSound(letter);
+    // setUserSound(letter);
     giphyImage(letter); //not working???
     speakWord(letter);
     speakWord(letter);
   };
   //Triggers the soundGenerator function
-  useEffect(
-    (letter) => {
-      if (userSound && letters.includes(letter)) {
-        soundGenerator(letter);
-        setUserSound(letter);
-      }
-    },
-    [userSound]
-  );
+  useEffect(() => {
+    console.log(userSound);
+
+    if (userSound.length <= 2 && letters.includes(userSound.charAt(0))) {
+      soundGenerator(userSound.charAt(0));
+    }
+  }, [userSound]);
 
   // Show next letter and associated gifs
   const showNextLetter = () => {
@@ -265,12 +255,9 @@ export default function PracticeLetter() {
                   {showLetters && (
                     <div>
                       <div key={letters[currentLetterIndex - 1]}>
-                        {letters[currentLetterIndex - 1]}
-                        <div>
-                          {results.length > 0 && (
-                            <GiphysResponse gifs={results} />
-                          )}
-                        </div>
+                        {results.length > 0 && (
+                          <GiphysResponse gifs={results} />
+                        )}
                       </div>
                     </div>
                   )}

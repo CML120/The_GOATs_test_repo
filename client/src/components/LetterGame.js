@@ -59,17 +59,21 @@ function LetterGame({ letters }) {
       <Flex justifyContent={"center"}>
         <div>
           <p style={{ color: "white" }}>What letter comes after: </p>
-          <h4 style={{ color: "gold", fontSize: "30px" }}>{currentLetter}</h4>
+          {score < 5 && (
+            <h4 style={{ color: "gold", fontSize: "30px" }}>{currentLetter}</h4>
+          )}
 
-          <input
-            className="letter-input"
-            style={{ padding: "5px" }}
-            type="text"
-            name="userInput"
-            value={userGuess}
-            onChange={(e) => setUserGuess(e.target.value)}
-            placeholder="write here"
-          />
+          {
+            <input
+              className="letter-input"
+              style={{ padding: "5px" }}
+              type="text"
+              name="userInput"
+              value={userGuess}
+              onChange={(e) => setUserGuess(e.target.value)}
+              placeholder="write here"
+            />
+          }
 
           <CustomButton onClick={checkUserGuess}>Submit</CustomButton>
           {score === 5 && showCongratulation && (
