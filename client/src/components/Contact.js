@@ -31,7 +31,7 @@ export default function Contact() {
         console.log("mutation error: ", error.message);
         return;
       }
-      // const { data } = result;
+
       // Check if the form submission was successful
       if (result.data.submitContactForm.success) {
         setSubmitMessage("Form submitted successfully.");
