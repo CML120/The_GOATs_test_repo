@@ -1,15 +1,36 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { GET_PROFILE, QUERY_USER, QUERY_ME } from "../../utils/queries";
+import { useMutation, useQuery } from "@apollo/client";
+import { QUERY_ME } from "../../utils/queries";
+import { DELETE_USER } from "../../utils/mutations";
 import "./Profile.css";
 
-import { Container, Flex, VStack, Box, Center } from "@chakra-ui/react";
+import { Container, Flex, VStack, Box, Center, Button } from "@chakra-ui/react";
 
 const Profile = () => {
   const { loading, data } = useQuery(QUERY_ME);
+  const [deleteUserById, { error }] = useMutation(DELETE_USER);
   // Retrieve user info from localStorage
   const userInfo = data?.me || {};
+
+  const handleDeleteUser = async (userId) => {
+    // const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+    // if (!token) {
+    //   return false;
+    // }
+  
+    try {
+      const { data } = await deleteUserById({
+        variables: { userInfo },
+      });
+
+      DELETE_USER({ id : userId });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -35,6 +56,18 @@ const Profile = () => {
                 <p id="profile-p">Welcome {userInfo?.username}!</p>
                 {/* <p id='profile-p'>Email: {userInfo?.email}</p> */}
                 <p id="profile-p">Level: {userInfo?.level}</p>
+                <Button
+                      size='lg'
+                      borderRadius='lg'
+                      bg='black'
+                      color='white'
+                      className=""
+                      style={{ cursor: 'pointer' }}
+                      type="submit"
+                      onClick={() => handleDeleteUser(userInfo._id)}
+                    >
+                      Delete User
+                    </Button>
               </div>
             ) : (
               <p>No user info available</p>

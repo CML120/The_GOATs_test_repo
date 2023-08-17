@@ -106,12 +106,14 @@ const resolvers = {
         throw new Error("Error fetching user by ID");
       }
     },
-    // try {
-    //   const newUser = new User({ username, email, password });
-    //   return await newUser.save();
-    // } catch (error) {
-    //   throw new Error('Error adding user');
-    // }
+   
+    deleteUserById: async (parent, args, context) => {
+      if (context.user) {
+        const userData = await User.findByIdAndDelete(context.user._id)
+        return userData;
+      }
+      throw new AuthenticationError("not logged in");
+    },
 
     submitContactForm: async (_, { input }) => {
       try {

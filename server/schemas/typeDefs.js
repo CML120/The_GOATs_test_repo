@@ -55,7 +55,7 @@ const typeDefs = gql`
     addProfile(profileFields: ProfileInput!): Profile
     updatePlayerLevel(userId: ID!, newLevel: Int!): User
     userById(id: ID!): User
-
+    deleteUserById(userId: ID!): User
     submitContactForm(input: ContactFormInput!): ContactResponse
   }
 
