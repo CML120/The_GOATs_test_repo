@@ -26,6 +26,7 @@ export default function PracticeLetter() {
   const [showLetters, setShowLetters] = useState(false);
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
   const [showLetterButton, setShowLetterButton] = useState("Show Letter");
+  const [failureMessage, setFailureMessage] = useState("");
 
   const letters = [
     "A",
@@ -128,17 +129,17 @@ export default function PracticeLetter() {
   }, []);
   //Generate sound
   const soundGenerator = (letter) => {
-    // setUserSound(letter);
-    giphyImage(letter); //not working???
+    giphyImage(letter);
     speakWord(letter);
     speakWord(letter);
   };
   //Triggers the soundGenerator function
   useEffect(() => {
-    console.log(userSound);
-
     if (userSound.length <= 2 && letters.includes(userSound.charAt(0))) {
       soundGenerator(userSound.charAt(0));
+      setFailureMessage("");
+    } else {
+      setFailureMessage("Try Again. Click the start button.");
     }
   }, [userSound]);
 
@@ -297,6 +298,7 @@ export default function PracticeLetter() {
               </Flex>
               <Flex justifyContent={"center"}>
                 <div>
+                  {userSound && failureMessage && <p>{failureMessage}</p>}
                   {results.length > 0 && <GiphysResponse gifs={results} />}
                 </div>
               </Flex>
