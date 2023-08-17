@@ -280,9 +280,9 @@ export default function PracticeLetter() {
                 <div style={{ color: "white" }}>
                   <p>
                     Get closer to the microphone, click the start button, and
-                    speak out the letter randomly.
+                    say a random letter.
                   </p>
-                  <p>You will hear back sound...</p>
+                  <p>You will hear a sound back...</p>
                 </div>
               </div>
 
