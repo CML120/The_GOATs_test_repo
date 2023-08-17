@@ -85,4 +85,13 @@ Jenna Strom - https://github.com/JennaStrom
 Nafbek Kebede -  https://github.com/Nafbek  
 Chee Lor - https://github.com/CML120
 
-![Alt text](image.png)
+![Alt text](image.png)  
+
+# Resources  
+
+[Giphy Devlopers documentation](https://developers.giphy.com/docs/sdk/#webhttps://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)  
+[Balsamiq Cloud - wireframing](https://balsamiq.cloud/)  
+[MDN Web Docs](https://developer.mozilla.org/en-US/)  
+[W3Schools](https://www.w3schools.com/)  
+
+
