@@ -25,10 +25,15 @@ export const CREATE_USER = gql`
 `;
 
 export const DELETE_USER = gql`
-  mutation deleteUser($userId: ID!) {
-    deleteUser(userId: $userId)
+  mutation deleteUserById($userId: ID!) {
+    deleteUserById(userId: $userId) {
+      _id
+      username
+      email
+      level
+    }
   }
-`
+`;
 
 export const UPDATE_PLAYER_LEVEL = gql`
   mutation UpdatePlayerLevel($userId: ID!, $newLevel: Int!) {

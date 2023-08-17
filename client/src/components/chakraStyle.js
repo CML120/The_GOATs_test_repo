@@ -20,10 +20,6 @@ export const CustomButtonStyle = {
 export const customTheme = extendTheme({
   components: {
     Button: CustomButtonStyle,
-  },
-
-  components: {
-    Button: CustomButtonStyle,
     Button: {
       baseStyle: {
         "@media screen and (max-width: 30em)": {

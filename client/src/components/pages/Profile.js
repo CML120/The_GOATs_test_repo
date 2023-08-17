@@ -15,17 +15,17 @@ const Profile = () => {
 
   const handleDeleteUser = async (userId) => {
     // const token = Auth.loggedIn() ? Auth.getToken() : null;
-  
+
     // if (!token) {
     //   return false;
     // }
-  
+
     try {
       const { data } = await deleteUserById({
-        variables: { userInfo },
+        variables: { userId },
       });
 
-      DELETE_USER({ id : userId });
+      // deleteUserById({ id: userId });
     } catch (error) {
       console.error(error);
     }
@@ -57,17 +57,17 @@ const Profile = () => {
                 {/* <p id='profile-p'>Email: {userInfo?.email}</p> */}
                 <p id="profile-p">Level: {userInfo?.level}</p>
                 <Button
-                      size='lg'
-                      borderRadius='lg'
-                      bg='black'
-                      color='white'
-                      className=""
-                      style={{ cursor: 'pointer' }}
-                      type="submit"
-                      onClick={() => handleDeleteUser(userInfo._id)}
-                    >
-                      Delete User
-                    </Button>
+                  size="lg"
+                  borderRadius="lg"
+                  bg="black"
+                  color="white"
+                  className=""
+                  style={{ cursor: "pointer" }}
+                  type="submit"
+                  onClick={() => handleDeleteUser(userInfo._id)}
+                >
+                  Delete User
+                </Button>
               </div>
             ) : (
               <p>No user info available</p>
