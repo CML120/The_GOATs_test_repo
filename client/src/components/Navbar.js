@@ -44,7 +44,7 @@ function Navbar() {
 
         <Breadcrumb separator="|">
           <BreadcrumbItem>
-            <Link className="nav-item" to="/home">
+            <Link className="nav-item" to="/">
               Home
             </Link>
           </BreadcrumbItem>
