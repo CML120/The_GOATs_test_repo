@@ -24,9 +24,13 @@ const Profile = () => {
   // Retrieve user info from localStorage
   const userInfo = data?.me || {};
 
+  //if the user info is changed, updates the user info
   const { setUser } = useAppContext(); // Get the setUser function from AppContext
   useEffect(() => {
-    console.log("Updated User Info:", userInfo);
+    // console.log("Updated User Info:", userInfo);
+    if (userInfo) {
+      setUser(userInfo);
+    }
   }, [userInfo]); // This will trigger whenever 'userInfo' changes
 
   const handleDeleteUser = async (userId) => {
@@ -82,7 +86,9 @@ const Profile = () => {
                   <p id="profile-p">Welcome {userInfo?.username}!</p>
                 )}
                 {/* <p id='profile-p'>Email: {userInfo?.email}</p> */}
-                <p id="profile-p">Level: {userInfo?.level}</p>
+                <p id="profile-p">
+                  Level: {userInfo?.level >= 5 ? 'G.R.O.A.T.' : userInfo?.level}
+                </p>
                 <Button
                   size="lg"
                   borderRadius="lg"
