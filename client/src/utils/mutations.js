@@ -24,6 +24,12 @@ export const CREATE_USER = gql`
   }
 `;
 
+export const DELETE_USER = gql`
+  mutation deleteUser($userId: ID!) {
+    deleteUser(userId: $userId)
+  }
+`
+
 export const UPDATE_PLAYER_LEVEL = gql`
   mutation UpdatePlayerLevel($userId: ID!, $newLevel: Int!) {
     updatePlayerLevel(userId: $userId, newLevel: $newLevel) {

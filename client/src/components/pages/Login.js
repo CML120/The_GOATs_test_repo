@@ -83,7 +83,7 @@ const Login = (props) => {
             <Box>
               {data ? (
                 <Box>
-                  Success! You may now head{' '}
+                  Success! You may now head to your {""}
                   <Link to="/profile">back to the homepage.</Link>
                 </Box>
               ) : (
