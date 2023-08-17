@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: center;
   margin: 9rem;
   box-shadow: #bcd00700;
   color: aliceblue;
@@ -11,10 +11,10 @@
   margin-bottom: 1rem;
   font-size: 1.5rem;
   color: rgb(239, 194, 80);
-  margin-left: 55%;
+  margin-left: 45%;
 }
 .form-container {
-  margin-left: 55%;
+  margin-left: 45%;
   bottom: 0;
 
   padding: 1rem;
