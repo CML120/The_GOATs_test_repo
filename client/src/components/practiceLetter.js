@@ -16,7 +16,7 @@ import LetterGame, { AllLettersInOne } from "./LetterGame";
 
 const CustomButton = chakra(Button, CustomButtonStyle);
 export default function PracticeLetter() {
-  const giphyApiKey = "AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j";
+  const giphyApiKey = process.env.REACT_APP_GIPHY_API_KEY;
   const gf = new GiphyFetch(giphyApiKey);
 
   // State variables

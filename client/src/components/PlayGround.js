@@ -5,7 +5,7 @@ import "./PlayGround.css";
 import WordGuessGame from "./WordGuessGame";
 import { motion } from "framer-motion";
 
-const giphyFetch = new GiphyFetch("AM5Vpj9SrOavAd2CktwDnrIjgpIuMe6j");
+const giphyFetch = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
 
 function PlayGround() {
     const [spokenWord, setSpokenWord] = useState("");
